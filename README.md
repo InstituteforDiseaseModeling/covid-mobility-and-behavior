@@ -1,4 +1,4 @@
-COVID-mobility-and-behavior
+COVID Mobility and Behavior
 ==============================
 
 This is a code and analysis repository for the paper "Cell phone tracking data reveals heterogeneity in stay at
