@@ -223,7 +223,7 @@ sphinxcontrib-websupport==1.2.0
 spyder==4.0.1
 spyder-kernels==1.8.1
 SQLAlchemy==1.3.13
--e git+https://github.com/InstituteforDiseaseModeling/data-driven-methods-for-gems-polio-covid.git@4b9ec87076385ed5ab409f97df293ef475f21528#egg=src
+#-e git+https://github.com/InstituteforDiseaseModeling/data-driven-methods-for-gems-polio-covid.git@4b9ec87076385ed5ab409f97df293ef475f21528#egg=src
 statsmodels==0.11.0
 sympy==1.5.1
 tables==3.6.1
