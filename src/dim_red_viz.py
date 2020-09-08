@@ -26,7 +26,9 @@ def visualize_manifold_method(X, emb_method, hyperparams_to_test, colors, name_p
     sns.set_style("whitegrid", {'axes.grid' : False})
     sns.set_palette('colorblind')
     if cbar == 'clustering':
-        friendly_cmap = ListedColormap(sns.color_palette('colorblind', len(np.unique(colors))).as_hex())
+#         friendly_cmap = ListedColormap(sns.color_palette('colorblind', len(np.unique(colors))).as_hex())
+        almost_sequential_pal = ['#1f78b4','#a6cee3','#fdbf6f','#ff7f00', '#cc78bc']
+        friendly_cmap = ListedColormap(sns.color_palette(almost_sequential_pal, len(np.unique(colors))).as_hex())
     if cbar == 'colormap':
         friendly_cmap = sns.cubehelix_palette(light=1, as_cmap=True)
     if cbar is None:
