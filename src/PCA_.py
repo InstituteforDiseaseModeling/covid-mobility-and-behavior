@@ -10,7 +10,6 @@ def ComputeCovariance(X):
     return mu, (X-mu).T.dot(X-mu)/len(X)
 
 if __name__ == "__main__":
-    pass
     #Part a
     # X_train, y_train, X_test, y_test = load_dataset()
     # mu, Sigma = ComputeCovariance(X_train)

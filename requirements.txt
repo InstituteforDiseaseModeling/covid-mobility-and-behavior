@@ -13,4 +13,5 @@ rpy2>=3.3.5
 python-dotenv>=0.14.0
 scikit-learn>=0.23.1
 scipy>=1.4.1
+seaborn>=0.11.0
 
