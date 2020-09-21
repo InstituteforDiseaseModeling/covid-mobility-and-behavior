@@ -1,0 +1,191 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dimensionality Reduction &#8212; COVID-mobility-and-behavior 0.1 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">COVID-mobility-and-behavior 0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Dimensionality Reduction</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-src.dimensionality_reduction">
+<span id="dimensionality-reduction"></span><h1>Dimensionality Reduction<a class="headerlink" href="#module-src.dimensionality_reduction" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt id="src.dimensionality_reduction.ComputeCovariance">
+<code class="sig-prename descclassname">src.dimensionality_reduction.</code><code class="sig-name descname">ComputeCovariance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/dimensionality_reduction.html#ComputeCovariance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#src.dimensionality_reduction.ComputeCovariance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the mean and covariance matrix of the demeaned dataset X (e.g. for PCA)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>np.array</em>) – data</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>mu</strong> (<em>np.array</em>) – mean</p></li>
+<li><p><strong>C</strong> (<em>np.array :</em>) – Covariance Matrix</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="src.dimensionality_reduction.choose_dimension">
+<code class="sig-prename descclassname">src.dimensionality_reduction.</code><code class="sig-name descname">choose_dimension</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">emb_method</span></em>, <em class="sig-param"><span class="n">hyperparams_to_test</span></em>, <em class="sig-param"><span class="n">name_prefix</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/dimensionality_reduction.html#choose_dimension"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#src.dimensionality_reduction.choose_dimension" title="Permalink to this definition">¶</a></dt>
+<dd><p>Vizualizes grid of 2D embeddings varying hyperparams_to_test, and 3D projection of the embedding with default parameters</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>np.array</em>) – data</p></li>
+<li><p><strong>emb_method</strong> (<em>sklearn class</em>) – embedding method with well-defined .fit_transform method, usually from sklearn.manifold</p></li>
+<li><p><strong>hyperparams_to_test</strong> (<em>dict</em>) – dictionary with hyperparams to test as keys and their respective ranges as values</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – hyperparams of the method (including the default values for the ones to vary)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>errors_results</strong> (<em>dict</em>) – dictionary with reconstruction errors as values, keys – varied hyperparams</p></li>
+<li><p><strong>embeddings_results</strong> (<em>dict</em>) – dictionary with embeddings as values, keys – varied hyperparams</p></li>
+<li><p><strong>trustws_results</strong> (<em>dict</em>) – dictionary with trustworthiness metrics as values, keys – varied hyperparams</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>For 3D projection, default parameters are used</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="src.dimensionality_reduction.return_metric">
+<code class="sig-prename descclassname">src.dimensionality_reduction.</code><code class="sig-name descname">return_metric</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">method</span></em>, <em class="sig-param"><span class="n">model</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/dimensionality_reduction.html#return_metric"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#src.dimensionality_reduction.return_metric" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns reconstruction error metric for a dim-reduction method</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>method</strong> (<em>sklearn class</em>) – embedding method with well-defined .fit_transform method, usually from sklearn.manifold</p></li>
+<li><p><strong>model</strong> (<em>sklearn class</em>) – fitted model</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Reconstruction error value for a fitted model or None if the metric is not defined</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float or None</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>So far, the error metric is only defined for Isomap</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="src.dimensionality_reduction.visualize_manifold_method">
+<code class="sig-prename descclassname">src.dimensionality_reduction.</code><code class="sig-name descname">visualize_manifold_method</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">emb_method</span></em>, <em class="sig-param"><span class="n">hyperparams_to_test</span></em>, <em class="sig-param"><span class="n">colors</span></em>, <em class="sig-param"><span class="n">filename</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">load_path</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">save_path</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">alpha</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">subselect</span><span class="o">=</span><span class="default_value">slice(None, None, None)</span></em>, <em class="sig-param"><span class="n">cbar</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">ax</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/dimensionality_reduction.html#visualize_manifold_method"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#src.dimensionality_reduction.visualize_manifold_method" title="Permalink to this definition">¶</a></dt>
+<dd><p>Vizualizes grid of 2D embeddings varying hyperparams_to_test. Visualizes 2D and 3D embeddings with default parameters separately.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>np.array</em>) – data</p></li>
+<li><p><strong>emb_method</strong> (<em>sklearn class</em>) – embedding method with well-defined .fit_transform method, usually from sklearn.manifold</p></li>
+<li><p><strong>hyperparams_to_test</strong> (<em>dict</em>) – dictionary with hyperparams to test as keys and their respective ranges as values</p></li>
+<li><p><strong>colors</strong> (<em>np.array</em>) – Array of colors,ust be of the same shape with X. Usually this would be clustering colors</p></li>
+<li><p><strong>filename</strong> (<em>str</em>) – Path to save figures, None by default. If None, figures are not saved</p></li>
+<li><p><strong>load_path</strong> (<em>str</em>) – For the subsequent 2D and 3D visualization, path to load preprocessed embeddings from to avoid lengthy computations</p></li>
+<li><p><strong>save_path</strong> (<em>str</em>) – For the subsequent 2D and 3D visualization, path to save embeddings to to avoid lengthy computations in the future</p></li>
+<li><p><strong>alpha</strong> (<em>float</em>) – Number between 0.0 and 1.0, transparency for the 2D and 3D plots</p></li>
+<li><p><strong>subselect</strong> (<em>slice</em>) – Slice to subselect samples to visualize. Only subselects for subsequent 2D and 3D projections. Helpful to throw away clusters.</p></li>
+<li><p><strong>cbar</strong> (<em>str</em>) – Type of colorscheme. Could be ‘clust’ for discrete colorscheme or ‘colormap’ for continuous colorscheme. cbar is an unfortunate name.</p></li>
+<li><p><strong>ax</strong> (<em>matplotlib ax object</em>) – ax artist to use for plotting within external figures. If None, figures are created here and both 2D and 3D are visualized</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – hyperparams of the method (including the default values for the ones to vary)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>X_2D_emb</strong> (<em>np.array</em>) – 2D embedding, could be None if axis is specified</p></li>
+<li><p><strong>X_3D_emb</strong> (<em>np.array</em>) – 3D embedding</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>For 3D projection, default parameters are used
+hyperparams_to_test could be empty, the code would just visualize 3D and possibly 2D projections
+if ax is None, both 2D and 3D default projections are visualized. If ax is not None, then only 3D is visualized.</p>
+</dd></dl>
+
+<span class="target" id="module-src.data"></span></div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/dimensionality_reduction.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">COVID-mobility-and-behavior 0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Dimensionality Reduction</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright .
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.2.1.
+    </div>
+  </body>
+</html>
