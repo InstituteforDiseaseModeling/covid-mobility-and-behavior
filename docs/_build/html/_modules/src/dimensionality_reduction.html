@@ -41,7 +41,7 @@
   <h1>Source code for src.dimensionality_reduction</h1><div class="highlight"><pre>
 <span></span>  
 <span class="sd">&quot;&quot;&quot;Module for applying dimensionality reduction and manifold learning methods to </span>
-<span class="sd">the SafeGraph stay-at-home time series data during COVID-19 pandemic</span>
+<span class="sd">the SafeGraph stay-at-home time series data during COVID-19 pandemic.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 <span class="kn">from</span> <span class="nn">sklearn.manifold</span> <span class="kn">import</span> <span class="n">trustworthiness</span>
@@ -53,10 +53,10 @@
 <span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">copy</span>
 <span class="kn">from</span> <span class="nn">matplotlib.colors</span> <span class="kn">import</span> <span class="n">ListedColormap</span>
 <span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">config</span> <span class="kn">import</span> <span class="n">configurations</span>
+<span class="kn">from</span> <span class="nn">src.config</span> <span class="kn">import</span> <span class="n">configurations</span>
 
 <span class="c1">#for PCA</span>
-<div class="viewcode-block" id="ComputeCovariance"><a class="viewcode-back" href="../../dimensionality_reduction.html#src.dimensionality_reduction.ComputeCovariance">[docs]</a><span class="k">def</span> <span class="nf">ComputeCovariance</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+<div class="viewcode-block" id="compute_covariance"><a class="viewcode-back" href="../../dimensionality_reduction.html#src.dimensionality_reduction.compute_covariance">[docs]</a><span class="k">def</span> <span class="nf">compute_covariance</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the mean and covariance matrix of the demeaned dataset X (e.g. for PCA)</span>
 <span class="sd">    </span>
@@ -77,6 +77,26 @@
     <span class="n">C</span> <span class="o">=</span> <span class="p">(</span><span class="n">X</span><span class="o">-</span><span class="n">mu</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="o">-</span><span class="n">mu</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">mu</span><span class="p">,</span> <span class="n">C</span></div>
 
+<div class="viewcode-block" id="explained_variance"><a class="viewcode-back" href="../../dimensionality_reduction.html#src.dimensionality_reduction.explained_variance">[docs]</a><span class="k">def</span> <span class="nf">explained_variance</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the fraction of explained variance as a function of the PCA component number</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    X : np.array</span>
+<span class="sd">        data</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    fraction_exp_var : np.array</span>
+<span class="sd">        fraction of explained variance as a function of the PCA component number  </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">mu</span><span class="p">,</span> <span class="n">Sigma</span> <span class="o">=</span> <span class="n">compute_covariance</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="n">l</span><span class="p">,</span> <span class="n">V</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eig</span><span class="p">(</span><span class="n">Sigma</span><span class="p">)</span>
+    <span class="n">sorted_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">l</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">l</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="n">sorted_indices</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float&#39;</span><span class="p">)</span>
+    <span class="n">fraction_exp_var</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">l</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">fraction_exp_var</span></div>
 
 <div class="viewcode-block" id="return_metric"><a class="viewcode-back" href="../../dimensionality_reduction.html#src.dimensionality_reduction.return_metric">[docs]</a><span class="k">def</span> <span class="nf">return_metric</span><span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -106,7 +126,7 @@
 
 <span class="c1">#Choose optimal dimension for a particular dim reduction method</span>
 <span class="c1">#Also works for choosing arbitrary hyperparameters, choose_dimension is a bit of an unfortunate name for the function</span>
-<div class="viewcode-block" id="choose_dimension"><a class="viewcode-back" href="../../dimensionality_reduction.html#src.dimensionality_reduction.choose_dimension">[docs]</a><span class="k">def</span> <span class="nf">choose_dimension</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">emb_method</span><span class="p">,</span> <span class="n">hyperparams_to_test</span><span class="p">,</span> <span class="n">name_prefix</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="choose_dimension"><a class="viewcode-back" href="../../dimensionality_reduction.html#src.dimensionality_reduction.choose_dimension">[docs]</a><span class="k">def</span> <span class="nf">choose_dimension</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">emb_method</span><span class="p">,</span> <span class="n">hyperparams_to_test</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Vizualizes grid of 2D embeddings varying hyperparams_to_test, and 3D projection of the embedding with default parameters</span>
 <span class="sd">    </span>
@@ -322,10 +342,11 @@
         <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="n">X_3D_emb</span>
 
 
-    <span class="k">return</span> <span class="n">X_2D_emb</span><span class="p">,</span> <span class="n">X_3D_emb</span>
+    <span class="k">return</span> <span class="n">X_2D_emb</span><span class="p">,</span> <span class="n">X_3D_emb</span></div>
 
-    <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-        <span class="k">pass</span></div>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="k">pass</span>
 </pre></div>
 
             <div class="clearer"></div>

@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dimensionality Reduction &#8212; COVID-mobility-and-behavior 0.1 documentation</title>
+    <title>Dimensionality Reduction (src.dimensionality_reduction) &#8212; COVID-mobility-and-behavior 0.1 documentation</title>
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
@@ -16,7 +16,8 @@
     <script src="_static/language_data.js"></script>
     
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Commands" href="commands.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
@@ -27,8 +28,11 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="commands.html" title="Commands"
+             accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">COVID-mobility-and-behavior 0.1 documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">Dimensionality Reduction</a></li> 
+        <li class="nav-item nav-item-this"><a href="">Dimensionality Reduction (src.dimensionality_reduction)</a></li> 
       </ul>
     </div>  
 
@@ -38,30 +42,12 @@
           <div class="body" role="main">
             
   <div class="section" id="module-src.dimensionality_reduction">
-<span id="dimensionality-reduction"></span><h1>Dimensionality Reduction<a class="headerlink" href="#module-src.dimensionality_reduction" title="Permalink to this headline">¶</a></h1>
+<span id="dimensionality-reduction-src-dimensionality-reduction"></span><h1>Dimensionality Reduction (src.dimensionality_reduction)<a class="headerlink" href="#module-src.dimensionality_reduction" title="Permalink to this headline">¶</a></h1>
 <p>Module for applying dimensionality reduction and manifold learning methods to
-the SafeGraph stay-at-home time series data during COVID-19 pandemic</p>
-<dl class="py function">
-<dt id="src.dimensionality_reduction.ComputeCovariance">
-<code class="sig-prename descclassname">src.dimensionality_reduction.</code><code class="sig-name descname">ComputeCovariance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/dimensionality_reduction.html#ComputeCovariance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#src.dimensionality_reduction.ComputeCovariance" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the mean and covariance matrix of the demeaned dataset X (e.g. for PCA)</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>X</strong> (<em>np.array</em>) – data</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><ul class="simple">
-<li><p><strong>mu</strong> (<em>np.array</em>) – mean</p></li>
-<li><p><strong>C</strong> (<em>np.array :</em>) – Covariance Matrix</p></li>
-</ul>
-</p>
-</dd>
-</dl>
-</dd></dl>
-
+the SafeGraph stay-at-home time series data during COVID-19 pandemic.</p>
 <dl class="py function">
 <dt id="src.dimensionality_reduction.choose_dimension">
-<code class="sig-prename descclassname">src.dimensionality_reduction.</code><code class="sig-name descname">choose_dimension</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">emb_method</span></em>, <em class="sig-param"><span class="n">hyperparams_to_test</span></em>, <em class="sig-param"><span class="n">name_prefix</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/dimensionality_reduction.html#choose_dimension"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#src.dimensionality_reduction.choose_dimension" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">src.dimensionality_reduction.</code><code class="sig-name descname">choose_dimension</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">emb_method</span></em>, <em class="sig-param"><span class="n">hyperparams_to_test</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/dimensionality_reduction.html#choose_dimension"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#src.dimensionality_reduction.choose_dimension" title="Permalink to this definition">¶</a></dt>
 <dd><p>Vizualizes grid of 2D embeddings varying hyperparams_to_test, and 3D projection of the embedding with default parameters</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -83,6 +69,41 @@ the SafeGraph stay-at-home time series data during COVID-19 pandemic</p>
 </dl>
 <p class="rubric">Notes</p>
 <p>For 3D projection, default parameters are used</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="src.dimensionality_reduction.compute_covariance">
+<code class="sig-prename descclassname">src.dimensionality_reduction.</code><code class="sig-name descname">compute_covariance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/dimensionality_reduction.html#compute_covariance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#src.dimensionality_reduction.compute_covariance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the mean and covariance matrix of the demeaned dataset X (e.g. for PCA)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>np.array</em>) – data</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>mu</strong> (<em>np.array</em>) – mean</p></li>
+<li><p><strong>C</strong> (<em>np.array :</em>) – Covariance Matrix</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="src.dimensionality_reduction.explained_variance">
+<code class="sig-prename descclassname">src.dimensionality_reduction.</code><code class="sig-name descname">explained_variance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/dimensionality_reduction.html#explained_variance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#src.dimensionality_reduction.explained_variance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the fraction of explained variance as a function of the PCA component number</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>np.array</em>) – data</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>fraction_exp_var</strong> – fraction of explained variance as a function of the PCA component number</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.array</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
@@ -142,7 +163,7 @@ hyperparams_to_test could be empty, the code would just visualize 3D and possibl
 if ax is None, both 2D and 3D default projections are visualized. If ax is not None, then only 3D is visualized.</p>
 </dd></dl>
 
-<span class="target" id="module-src.data"></span></div>
+</div>
 
 
             <div class="clearer"></div>
@@ -151,6 +172,9 @@ if ax is None, both 2D and 3D default projections are visualized. If ax is not N
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="commands.html"
+                        title="previous chapter">Commands</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -181,8 +205,11 @@ if ax is None, both 2D and 3D default projections are visualized. If ax is not N
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="commands.html" title="Commands"
+             >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">COVID-mobility-and-behavior 0.1 documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">Dimensionality Reduction</a></li> 
+        <li class="nav-item nav-item-this"><a href="">Dimensionality Reduction (src.dimensionality_reduction)</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
