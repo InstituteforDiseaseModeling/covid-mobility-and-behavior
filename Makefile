@@ -24,6 +24,8 @@ endif
 requirements: test_environment
 	$(PYTHON_INTERPRETER) -m pip install -U pip setuptools wheel
 	$(PYTHON_INTERPRETER) -m pip install -r requirements.txt
+	conda install -c anaconda ipykernel
+	$(PYTHON_INTERPRETER) -m ipykernel install --user --name=$(PROJECT_NAME)
 
 ## Make Data: download raw data and external data. RAW_DATA_URL and INCOME_POPULATION_URL links must be specified in .env
 data: requirements

@@ -19,15 +19,15 @@ income_population_data_url = os.environ.get("INCOME_POPULATION_URL")
 # project_dir = os.path.abspath(os.path.join(os.getcwd(), '..', '..'))
 project_dir = Path(__file__).resolve().parents[2]
 #Places urls (for cities):
-wa_places = 'https://www2.census.gov/geo/tiger/TIGER2019/PLACE/tl_2019_53_place.zip'
-tx_places = 'https://www2.census.gov/geo/tiger/TIGER2019/PLACE/tl_2019_48_place.zip'
-ca_places = 'https://www2.census.gov/geo/tiger/TIGER2019/PLACE/tl_2019_06_place.zip'
-ga_places = 'https://www2.census.gov/geo/tiger/TIGER2019/PLACE/tl_2019_13_place.zip'
+wa_places = 'https://www2.census.gov/geo/tiger/GENZ2019/shp/cb_2019_53_place_500k.zip' #'https://www2.census.gov/geo/tiger/TIGER2019/PLACE/tl_2019_53_place.zip'
+tx_places = 'https://www2.census.gov/geo/tiger/GENZ2019/shp/cb_2019_48_place_500k.zip'#'https://www2.census.gov/geo/tiger/TIGER2019/PLACE/tl_2019_48_place.zip'
+ca_places = 'https://www2.census.gov/geo/tiger/GENZ2019/shp/cb_2019_06_place_500k.zip'#'https://www2.census.gov/geo/tiger/TIGER2019/PLACE/tl_2019_06_place.zip' 
+ga_places = 'https://www2.census.gov/geo/tiger/GENZ2019/shp/cb_2019_13_place_500k.zip'#'https://www2.census.gov/geo/tiger/TIGER2019/PLACE/tl_2019_13_place.zip'
 #Shape files:
-wa_shape = 'https://www2.census.gov/geo/tiger/TIGER2019/BG/tl_2019_53_bg.zip'
-tx_shape = 'https://www2.census.gov/geo/tiger/TIGER2019/BG/tl_2019_48_bg.zip'
-ca_shape = 'https://www2.census.gov/geo/tiger/TIGER2019/BG/tl_2019_06_bg.zip'
-ga_shape = 'https://www2.census.gov/geo/tiger/TIGER2019/BG/tl_2019_13_bg.zip'
+wa_shape = 'https://www2.census.gov/geo/tiger/GENZ2019/shp/cb_2019_53_bg_500k.zip'#'https://www2.census.gov/geo/tiger/TIGER2019/BG/tl_2019_53_bg.zip'
+tx_shape = 'https://www2.census.gov/geo/tiger/GENZ2019/shp/cb_2019_48_bg_500k.zip'#'https://www2.census.gov/geo/tiger/TIGER2019/BG/tl_2019_48_bg.zip'
+ca_shape = 'https://www2.census.gov/geo/tiger/GENZ2019/shp/cb_2019_06_bg_500k.zip'#'https://www2.census.gov/geo/tiger/TIGER2019/BG/tl_2019_06_bg.zip'
+ga_shape = 'https://www2.census.gov/geo/tiger/GENZ2019/shp/cb_2019_13_bg_500k.zip'#'https://www2.census.gov/geo/tiger/TIGER2019/BG/tl_2019_13_bg.zip'
 
 def create_data_directories():
     """Creates data directories
@@ -138,6 +138,11 @@ def main():
     #CA
     ca_places_path = os.path.join(external_data_path, 'ca_places')
     download_and_unzip_data(ca_places, ca_places_path)
+
+    #Download and save income_population data
+    print('Downloading and saving income-population')
+    income_population_path = os.path.join(external_data_path, 'income_population')
+    download_and_unzip_data(income_population_data_url, income_population_path)
 
     return
 

@@ -1,3 +1,7 @@
+  
+"""Module for applying dimensionality reduction and manifold learning methods to 
+the SafeGraph stay-at-home time series data during COVID-19 pandemic.
+"""
 import seaborn as sns
 from sklearn.manifold import trustworthiness
 import numpy as np
@@ -8,10 +12,10 @@ from mpl_toolkits.mplot3d import Axes3D
 from copy import copy
 from matplotlib.colors import ListedColormap
 import os
-from config import configurations
+from src.config import configurations
 
 #for PCA
-def ComputeCovariance(X):
+def compute_covariance(X):
     """
     Returns the mean and covariance matrix of the demeaned dataset X (e.g. for PCA)
     
@@ -24,13 +28,34 @@ def ComputeCovariance(X):
     -------
     mu : np.array
         mean
-    np.array : 
+    C : np.array : 
         Covariance Matrix
     
     """
     mu = np.mean(X, axis = 0)
-    return mu, (X-mu).T.dot(X-mu)/len(X)
+    C = (X-mu).T.dot(X-mu)/len(X)
+    return mu, C
 
+def explained_variance(X):
+    """
+    Returns the fraction of explained variance as a function of the PCA component number
+    
+    Parameters
+    ----------
+    X : np.array
+        data
+
+    Returns
+    -------
+    fraction_exp_var : np.array
+        fraction of explained variance as a function of the PCA component number  
+    """
+    mu, Sigma = compute_covariance(X)
+    l, V = np.linalg.eig(Sigma)
+    sorted_indices = np.argsort(l)[::-1]
+    l = l[sorted_indices].astype('float')
+    fraction_exp_var = np.cumsum(l)/np.sum(l)
+    return fraction_exp_var
 
 def return_metric(method, model):
     """
@@ -165,7 +190,7 @@ def visualize_manifold_method(X, emb_method, hyperparams_to_test, colors, filena
     # IMG_PATH = "/home/rlevin/notebooks/notebooks/datadrivenmethodsforgemspoliocovid/reports/figures/exploratory/covid/dim_red_viz/"+name_prefix
     # FIGURES_PATH = '/home/rlevin/notebooks/notebooks/datadrivenmethodsforgemspoliocovid/reports/figures/'
     sns.set_style("whitegrid", {'axes.grid' : False})
-    sns.set_palette('colorblind')
+    # sns.set_palette('colorblind')
     if cbar == 'clustering':
 #         friendly_cmap = ListedColormap(sns.color_palette('colorblind', len(np.unique(colors))).as_hex())
         almost_sequential_pal = configurations['clustering_palette']#['#1f78b4','#a6cee3','#fdbf6f','#ff7f00', '#cc78bc']
@@ -278,5 +303,6 @@ def visualize_manifold_method(X, emb_method, hyperparams_to_test, colors, filena
 
     return X_2D_emb, X_3D_emb
 
-    if __name__ == "__main__":
-        pass
+
+if __name__ == "__main__":
+    pass
