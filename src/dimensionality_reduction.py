@@ -85,7 +85,7 @@ def return_metric(method, model):
 
 #Choose optimal dimension for a particular dim reduction method
 #Also works for choosing arbitrary hyperparameters, choose_dimension is a bit of an unfortunate name for the function
-def choose_dimension(X, emb_method, hyperparams_to_test, name_prefix, **kwargs):
+def choose_dimension(X, emb_method, hyperparams_to_test, **kwargs):
     """
     Vizualizes grid of 2D embeddings varying hyperparams_to_test, and 3D projection of the embedding with default parameters
     
