@@ -60,7 +60,7 @@ Project Organization
 Getting Started
 ---------------
 
-make create_environment
+    make create_environment
 
 
 --------
