@@ -8,27 +8,24 @@ behavioral patterns that correlate with socioeconomic information (e.g. income).
 we obtain geographically connected clusters which reveal differences in stay-at-home behavior between rural and urban areas. 
 The results are consistent across multiple states.
 
-Project Organization
+Project Organization (draft)
 ------------
 
     ├── LICENSE
-    ├── Makefile           <- Makefile with commands like `make data` or `make train`
+    ├── Makefile           <- Makefile with commands like `make data` 
     ├── README.md          <- The top-level README for developers using this project.
     ├── data
-    │   ├── external       <- Data from third party sources.
-    │   ├── interim        <- Intermediate data that has been transformed.
-    │   ├── processed      <- The final, canonical data sets for modeling.
-    │   └── raw            <- The original, immutable data dump.
+    │   ├── external       <- Data from third party sources. (Not on Github, in IDM dropbox, downloaded automatically)
+    │   ├── interim        <- Intermediate data that has been transformed.(Not on Github, in IDM dropbox, downloaded automatically)
+    │   ├── processed      <- The final, canonical data sets for modeling.(Not on Github, in IDM dropbox, downloaded automatically)
+    │   └── raw            <- The original, immutable data dump.(Not on Github, in IDM dropbox, downloaded automatically)
     │
-    ├── docs               <- A default Sphinx project; see sphinx-doc.org for details
+    ├── docs               <- documentation, see html files in the build directory. Will be published using github pages.
     │
-    ├── models             <- Trained and serialized models, model predictions, or model summaries
     │
     ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
     │                         the creator's initials, and a short `-` delimited description, e.g.
     │                         `1.0-jqp-initial-data-exploration`.
-    │
-    ├── references         <- Data dictionaries, manuals, and all other explanatory materials.
     │
     ├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
     │   └── figures        <- Generated graphics and figures to be used in reporting
@@ -40,16 +37,9 @@ Project Organization
     └── src                <- Source code for use in this project.
         ├── __init__.py    <- Makes src a Python module
         │
-        ├── data           <- Scripts to download or generate data
+        ├── data           <- Scripts to download data
         │   └── make_dataset.py
         │ 
-        ├── features       <- Scripts to turn raw data into features for modeling
-        │   └── build_features.py
-        │
-        ├── models         <- Scripts to train models and then use trained models to make
-        │   │                 predictions
-        │   ├── predict_model.py
-        │   └── train_model.py
         │
         └── visualization  <- Scripts to create exploratory and results oriented visualizations
            └── visualize.py
@@ -59,8 +49,17 @@ Project Organization
 
 Getting Started
 ---------------
-To use the code from this repository, one would need a Linux machine or Windows with <a href = "https://docs.microsoft.com/en-us/windows/wsl/install-win10">WSL</a>  or <a href = "https://cygwin.com/cygwin-ug-net/cygwin-ug-net.pdf">Cygwin</a> configured to run Linux commands.
+To use the code from this repository, we need a Linux machine or Windows with <a href = "https://docs.microsoft.com/en-us/windows/wsl/install-win10">WSL</a>  or <a href = "https://cygwin.com/cygwin-ug-net/cygwin-ug-net.pdf">Cygwin</a> configured to run Linux commands. A <a href = "https://docs.conda.io/projects/conda/en/latest/user-guide/install/linux.html#install-linux-silent">conda</a> conda installation of <a href = "https://www.python.org/downloads/">Python 3</a> and an installation of <a href = "https://www.r-project.org/">R</a> are also required.
+
+To clone this repository:
+    
+    git clone https://github.com/InstituteforDiseaseModeling/covid-mobility-and-behavior.git
+    
+<a href = "https://www.gnu.org/software/make/">Make</a> utility automates downloading the data and creating the environment. Hint: typing 'make' to the terminal will show description of available commands.
+First, we need to create a virtual environment and install the requirements for our project:
+
     make create_environment
+    make requirements
 
 
 --------
