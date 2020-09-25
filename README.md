@@ -55,12 +55,23 @@ To clone this repository:
     
     git clone https://github.com/InstituteforDiseaseModeling/covid-mobility-and-behavior.git
     
-<a href = "https://www.gnu.org/software/make/">Make</a> utility automates downloading the data and creating the environment. Hint: typing 'make' to the terminal will show description of available commands.
-First, we need to create a virtual environment and install the requirements for our project:
+<a href = "https://www.gnu.org/software/make/">Make</a> utility automates downloading the data and creating the environment. Hint: typing `make` to the terminal will show description of available commands.
+
+First, we need to create a virtual environment and install the requirements for our project (the below commands should be executed from the root directory of the project).
+The following commands will create a conda virtual environment for the project, install required packages and create a jupyter kernel for the project.
 
     make create_environment
     make requirements
+    
+Now, we can download the data. This will download raw data and necessary shapefiles (the command could take up to 20 min to run depending on the Internet speed):
 
+    make data
+   
+Optionally, we can download precomputed low-dimensional embeddings and other analysis files to allow for creating figures without waiting for the code to run.
+
+    make precomputed_data
+    
+Finally, we should be able to run notebooks from the [/notebooks] folder.
 
 --------
 
