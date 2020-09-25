@@ -59,7 +59,7 @@ Project Organization
 
 Getting Started
 ---------------
-
+To use the code from this repository, one would need a Linux machine or Windows with <a href = "https://docs.microsoft.com/en-us/windows/wsl/install-win10">WSL</a>  or <a href = "https://cygwin.com/cygwin-ug-net/cygwin-ug-net.pdf">Cygwin</a> configured to run Linux commands.
     make create_environment
 
 
