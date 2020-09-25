@@ -71,7 +71,7 @@ Optionally, we can download precomputed low-dimensional embeddings and other ana
 
     make precomputed_data
     
-Finally, we should be able to run notebooks from the [/notebooks] folder.
+Finally, we should be able to run notebooks from the [/notebooks](/notebooks) folder.
 
 --------
 
