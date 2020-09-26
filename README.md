@@ -19,9 +19,13 @@ To clone this repository:
 <a href = "https://www.gnu.org/software/make/">Make</a> utility automates downloading the data and creating the environment. Tip: typing `make` in the terminal will show description of available commands.
 
 First, we need to create a virtual environment and install the requirements for our project (the below commands should be executed from the root directory of the project).
-The following commands will create a conda virtual environment for the project, install required packages and create a jupyter kernel for the project.
+The following commands will create a conda virtual environment for the project and activate it:
 
     make create_environment
+    source activate covid-mobility-and-behavior
+    
+After that, we install required packages and create a jupyter kernel for the project:
+
     make requirements
     
 Now, we can download the data. This will download raw data and necessary shapefiles (the command could take up to 20 min to run depending on the Internet speed):
