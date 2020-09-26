@@ -32,7 +32,7 @@ Optionally, we can download precomputed low-dimensional embeddings and other ana
 
     make precomputed_data
     
-Finally, we should be able to run notebooks from the [/notebooks](/notebooks) folder. Dennis, please use the [https://github.com/InstituteforDiseaseModeling/covid-mobility-and-behavior/blob/master/notebooks/Supplement_PCA_explained_variance.ipynb](PCA) notebook for now to test the code. If it works, that would mean that the local package was installed correctly and that the data was downloaded and saved correctly.
+Finally, we should be able to run notebooks from the [/notebooks](/notebooks) folder. Dennis, please use the [https://github.com/InstituteforDiseaseModeling/covid-mobility-and-behavior/blob/master/notebooks/Supplement_PCA_explained_variance.ipynb](F) notebook for now to test the code. If it works, that would mean that the local package was installed correctly and that the data was downloaded and saved correctly.
 Other notebooks are in the process of being cleaned up and are coming very soon!
 
 
