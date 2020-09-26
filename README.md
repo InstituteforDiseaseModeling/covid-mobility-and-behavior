@@ -24,7 +24,7 @@ The following commands will create a conda virtual environment for the project a
     make create_environment
     source activate covid-mobility-and-behavior
     
-After that, we install required packages and create a jupyter kernel for the project:
+After that, we install required packages and create a jupyter kernel for the project (make sure R is installed on the system):
 
     make requirements
     
