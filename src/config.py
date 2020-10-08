@@ -13,6 +13,12 @@ TEXAS_SHAPE_PATH = os.path.abspath(os.path.join(project_dir,'data','external', '
 GEORGIA_SHAPE_PATH = os.path.abspath(os.path.join(project_dir, 'data', 'external', 'ga_shape','cb_2019_13_bg_500k.shp'))
 CALIFORNIA_SHAPE_PATH = os.path.abspath(os.path.join(project_dir, 'data', 'external', 'ca_shape','cb_2019_06_bg_500k.shp'))
 
+
+WASHINGTON_PLACES_PATH = os.path.abspath(os.path.join(project_dir, 'data', 'external', 'wa_places', 'cb_2019_53_place_500k.shp'))
+TEXAS_PLACES_PATH = os.path.abspath(os.path.join(project_dir,'data','external', 'tx_places','cb_2019_48_place_500k.shp'))
+GEORGIA_PLACES_PATH = os.path.abspath(os.path.join(project_dir, 'data', 'external', 'ga_places', 'cb_2019_13_place_500k.shp'))
+CALIFORNIA_PLACES_PATH = os.path.abspath(os.path.join(project_dir, 'data', 'external', 'ca_places','cb_2019_06_place_500k.shp'))
+
 #Figures:
 WASHINGTON_FIGURE_PATH = os.path.abspath(os.path.join(project_dir, 'reports', 'figures', 'WA'))
 TEXAS_FIGURE_PATH = os.path.abspath(os.path.join(project_dir, 'reports', 'figures', 'TX'))
@@ -38,6 +44,12 @@ configurations = {
 'TEXAS_SHAPE_PATH': TEXAS_SHAPE_PATH,
 'GEORGIA_SHAPE_PATH': GEORGIA_SHAPE_PATH,
 'CALIFORNIA_SHAPE_PATH': CALIFORNIA_SHAPE_PATH,
+
+'wa_PLACES_PATH': WASHINGTON_PLACES_PATH,
+'tx_PLACES_PATH': TEXAS_PLACES_PATH,
+'ga_PLACES_PATH': GEORGIA_PLACES_PATH,
+'ca_PLACES_PATH': CALIFORNIA_PLACES_PATH,
+
 'WASHINGTON_FIGURE_PATH': WASHINGTON_FIGURE_PATH,
 'TEXAS_FIGURE_PATH': TEXAS_FIGURE_PATH,
 'GEORGIA_FIGURE_PATH': GEORGIA_FIGURE_PATH,

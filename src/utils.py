@@ -2,6 +2,24 @@
 """
 from src.config import configurations
 import os
+import pandas as pd
+import numpy as np
+import os
+import matplotlib.pyplot as plt
+import seaborn as sns
+from matplotlib.colors import ListedColormap
+from sklearn.linear_model import LinearRegression
+import geopandas as gpd
+import datetime
+import scipy
+from kneed import DataGenerator, KneeLocator
+import pickle
+from matplotlib import gridspec
+import matplotlib.dates as mdates
+from matplotlib.dates import MO, TU, WE, TH, FR, SA, SU
+import scipy
+from datetime import datetime
+from sklearn.metrics.pairwise import cosine_similarity
 
 def plot_time_series(time_series_df, name = 'time_series_of_interest', filename = None, only_melt = False):
     """TODO"""
