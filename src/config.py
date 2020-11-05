@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+import seaborn as sns
 
 project_dir = Path(__file__).resolve().parents[1]
 
@@ -39,7 +40,7 @@ INCOME_POPULATION_PATH = os.path.join(DATA_PATH, 'external', 'income_population'
 print(project_dir)
 
 configurations = {
-'clustering_palette': ['#1f78b4','#a6cee3','#fdbf6f','#ff7f00', '#cc78bc'],
+'clustering_palette': ['#1f78b4','#a6cee3','#fdbf6f','#ff7f00', '#cc78bc'],#sns.color_palette("tab10"), 
 'WASHINGTON_SHAPE_PATH': WASHINGTON_SHAPE_PATH,
 'TEXAS_SHAPE_PATH': TEXAS_SHAPE_PATH,
 'GEORGIA_SHAPE_PATH': GEORGIA_SHAPE_PATH,

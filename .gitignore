@@ -4,7 +4,7 @@ __pycache__/
 
 # C extensions
 *.so
-
+**.pkl
 # Distribution / packaging
 .Python
 env/
@@ -23,7 +23,7 @@ var/
 .installed.cfg
 *.egg
 *.env*
-
+notebooks/obj
 # PyInstaller
 #  Usually these files are written by a python script from a template
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.

@@ -20,6 +20,45 @@ from matplotlib.dates import MO, TU, WE, TH, FR, SA, SU
 import scipy
 from datetime import datetime
 from sklearn.metrics.pairwise import cosine_similarity
+import geopandas as gpd
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from src.config import configurations
+import os
+from pathlib import Path
+from src.dimensionality_reduction import compute_covariance, explained_variance
+import sklearn.decomposition
+#Imports
+import pandas as pd
+import numpy as np
+import os
+import matplotlib.pyplot as plt
+import seaborn as sns
+from matplotlib.colors import ListedColormap
+from sklearn.linear_model import LinearRegression
+import geopandas as gpd
+import datetime
+import scipy
+from src.config import configurations
+from src.dimensionality_reduction import compute_covariance, visualize_manifold_method, choose_dimension
+from rpy2.robjects.packages import importr
+import rpy2.robjects as ro
+from rpy2.robjects import r, pandas2ri
+from rpy2.robjects.conversion import localconverter
+from sklearn.manifold import Isomap, SpectralEmbedding, LocallyLinearEmbedding, trustworthiness
+from sklearn.manifold import trustworthiness
+from copy import copy 
+from kneed import DataGenerator, KneeLocator
+import pickle
+from matplotlib import gridspec
+import matplotlib.dates as mdates
+from matplotlib.dates import MO, TU, WE, TH, FR, SA, SU
+import scipy
+from datetime import datetime
+from sklearn.metrics.pairwise import cosine_similarity
+
 
 def plot_time_series(time_series_df, name = 'time_series_of_interest', filename = None, only_melt = False):
     """TODO"""
@@ -243,6 +282,60 @@ def load_data(RAW_DATA_PATH):
     columns_X = covid_block_indexed.dropna().columns
     print('Data loaded. Dropped NaNs shape:{}. Initial shape:{}'.format(X.shape, covid_block_indexed.shape))
     return covid_block_indexed, X, index_X, columns_X
+
+
+def GMM_clustering_R(X_SE_df, method, default_cluster_num = None):
+    """Function to check BIC and perform GMM clustering on embedded dataset"""
+    #First, import r packages and fix random seed:
+    base = importr('base')
+    mclust = importr('mclust')
+    ro.r('set.seed(0)')
+    
+    #Now, check BIC and make a plot
+    num_components_to_try = pd.Series(np.arange(1,12)) #try up to 12 components
+    with localconverter(ro.default_converter + pandas2ri.converter):
+        ro.r('set.seed(0)')
+        BIC_SE = mclust.mclustBIC(X_SE_df, G = num_components_to_try)
+    
+    model_names = ['EII', 'VII', 'EEI', 'VEI', 'EVI', 'VVI', 'EEE', 'EVE', 'VEE', 'VVE', 'EEV', 'VEV', 'EVV', 'VVV']
+    sns.set(style="darkgrid")
+#     sns.set_palette("tab10")
+    BIC_SE_df = pd.DataFrame(BIC_SE, columns = model_names)
+#     plt.figure()
+    BIC_SE_df.plot(marker = 'o')
+    plt.title('GMM BIC on ' + method.__name__)
+    
+    #Now, find the knee point of the optimal BIC plot (the best GMM parametrization)
+    best_parametrization = BIC_SE_df.columns[BIC_SE_df.max().argmax()]
+    kneedle = KneeLocator(num_components_to_try, BIC_SE_df[best_parametrization], S=1, curve='concave', direction='increasing', interp_method='interp1d')
+#     plt.figure()
+    kneedle.plot_knee()
+    plt.title('GMM BIC on ' + method.__name__ + ': Knee Point')
+    plt.xlabel('num_GMM_components')
+    plt.ylabel('')
+    print('Elbow point: {} components with BIC {}'.format(kneedle.knee, kneedle.knee_y))
+    
+    #Pick the best number of GMM components:
+    best_num_components = kneedle.knee-1
+    if default_cluster_num is not None:
+        best_num_components = default_cluster_num-1
+    with localconverter(ro.default_converter + pandas2ri.converter):
+        ro.r('set.seed(0)')
+        mc = mclust.Mclust(X_SE_df, G = pd.Series([num_components_to_try[best_num_components]]))
+        print(base.summary(mc))
+        print('Uncertainty quantiles:', np.quantile(mc[15], [0, 0.25, 0.5, 0.75, 1]))
+        mc_dict = convert_to_python_dict(mc)
+        SE_model_name = mc_dict['modelName']
+        print(SE_model_name)
+        param = mc_dict['parameters']
+        SE_means = np.array(convert_to_python_dict(param)['mean'])
+        SE_uncertainty = np.array(mc_dict['uncertainty'])
+        SE_z = np.array(convert_to_python_dict(mc)['z'])
+        SE_clusters = np.array(convert_to_python_dict(mc)['classification'])
+        SE_means = pd.DataFrame(SE_means, columns = ['V'+str(i+1) for i in range(SE_means.shape[1])])
+#         np.array(mc[14])
+#         SE_means = np.array(mc[12][1])
+    return SE_clusters, SE_means, SE_z, SE_uncertainty
 
 if __name__ == "__main__":
     pass
