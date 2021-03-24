@@ -155,6 +155,8 @@ def save_obj(obj, name):
     Returns
     -------
     """
+    if not os.path.isdir('obj'):
+        os.mkdir('obj')
     with open(os.path.join('obj', name + '.pkl'), 'wb') as f:
         pickle.dump(obj, f, pickle.HIGHEST_PROTOCOL)
 
@@ -222,6 +224,10 @@ def define_paths(STATE):
     TEXAS_FIGURE_PATH = configurations['TEXAS_FIGURE_PATH']
     GEORGIA_FIGURE_PATH = configurations['GEORGIA_FIGURE_PATH']
     CALIFORNIA_FIGURE_PATH = configurations['CALIFORNIA_FIGURE_PATH']
+
+    #Demo data:
+    SYNTHETIC_WASHINGTON_FIGURE_PATH = configurations['SYNTHETIC_WASHINGTON_FIGURE_PATH']
+    
     FIGURE_PATH = configurations['FIGURE_PATH']
 
     #Data:
@@ -230,6 +236,8 @@ def define_paths(STATE):
     GEORGIA_RAW_DATA_PATH = configurations['GEORGIA_RAW_DATA_PATH']
     TEXAS_RAW_DATA_PATH = configurations['TEXAS_RAW_DATA_PATH']
     CALIFORNIA_RAW_DATA_PATH = configurations['CALIFORNIA_RAW_DATA_PATH']
+    #Demo data:
+    SYNTHETIC_WASHINGTON_RAW_DATA_PATH = configurations['SYNTHETIC_WASHINGTON_RAW_DATA_PATH']
     
     #Income-population path:
     INCOME_POPULATION_PATH = os.path.join(DATA_PATH, 'external', 'income_population')
@@ -242,7 +250,6 @@ def define_paths(STATE):
         SHAPE_PATH = TEXAS_SHAPE_PATH
         FIGURE_PATH = TEXAS_FIGURE_PATH
         RAW_DATA_PATH = TEXAS_RAW_DATA_PATH
-#         DATA_PATH  = 
     if STATE == 'ga':
         SHAPE_PATH = GEORGIA_SHAPE_PATH
         FIGURE_PATH = GEORGIA_FIGURE_PATH
@@ -251,6 +258,10 @@ def define_paths(STATE):
         SHAPE_PATH = CALIFORNIA_SHAPE_PATH
         FIGURE_PATH = CALIFORNIA_FIGURE_PATH
         RAW_DATA_PATH = CALIFORNIA_RAW_DATA_PATH
+    if STATE == 'demo':
+        SHAPE_PATH = WASHINGTON_SHAPE_PATH
+        FIGURE_PATH = SYNTHETIC_WASHINGTON_FIGURE_PATH
+        RAW_DATA_PATH = SYNTHETIC_WASHINGTON_RAW_DATA_PATH
     return SHAPE_PATH, FIGURE_PATH, RAW_DATA_PATH, INCOME_POPULATION_PATH
 
 #Load the data

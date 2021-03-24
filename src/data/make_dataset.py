@@ -13,8 +13,9 @@ dotenv_path = find_dotenv()
 load_dotenv(dotenv_path)
 
 #Get raw data download url from .env (should be defined there)
-raw_data_url = os.environ.get("RAW_DATA_URL")
-income_population_data_url = os.environ.get("INCOME_POPULATION_URL")
+# raw_data_url = os.environ.get("RAW_DATA_URL")
+# income_population_data_url = os.environ.get("INCOME_POPULATION_URL")
+demo_data_url = 'https://www.dropbox.com/sh/w4tjp849lnchb9d/AACv0jyNFI2V3mq9kZDPVWePa?dl=1'
 #Define project directory to easier define paths
 # project_dir = os.path.abspath(os.path.join(os.getcwd(), '..', '..'))
 project_dir = Path(__file__).resolve().parents[2]
@@ -103,9 +104,16 @@ def main():
     print('Creating data directories')
     create_data_directories()
     #Download and save raw data
+    #We cannot provide a url to SafeGraph data, the raw data has to be downloaded separately and stored in the respective directories, see README
+    # print('Downloading and saving raw data')
+    # raw_data_path = os.path.join(project_dir, 'data', 'raw')
+    # download_and_unzip_data(raw_data_url, raw_data_path)
+
+    #Download and save demo data
+    #Do demonstrate analysis we provide demo data to run our analysis on
     print('Downloading and saving raw data')
-    raw_data_path = os.path.join(project_dir, 'data', 'raw')
-    download_and_unzip_data(raw_data_url, raw_data_path)
+    demo_data_path = os.path.join(project_dir, 'data', 'demo')
+    download_and_unzip_data(demo_data_url, demo_data_path)
 
     #Download and save shapefiles:
     print('Downloading and saving shapefiles')
@@ -139,10 +147,11 @@ def main():
     ca_places_path = os.path.join(external_data_path, 'ca_places')
     download_and_unzip_data(ca_places, ca_places_path)
 
-    #Download and save income_population data
-    print('Downloading and saving income-population')
-    income_population_path = os.path.join(external_data_path, 'income_population')
-    download_and_unzip_data(income_population_data_url, income_population_path)
+    #Download and save income_population census data
+    #We cannot provide a url to census data, it has to be downloaded separately and stored in the respective directories, see README
+    # print('Downloading and saving income-population')
+    # income_population_path = os.path.join(external_data_path, 'income_population')
+    # download_and_unzip_data(income_population_data_url, income_population_path)
 
     return
 
