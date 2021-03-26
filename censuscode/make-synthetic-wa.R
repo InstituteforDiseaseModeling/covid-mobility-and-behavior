@@ -9,7 +9,7 @@
 library(sf)
 
 censusdatadirectory <- "../data/"  # census data
-syntheticdatadirectory <- ""  # census data
+syntheticdatadirectory <- ""  # output directory for synthetic data
 statename <- "washington"
 statefips <- 53
 
@@ -116,7 +116,7 @@ centroids <- st_centroid(shapefile.counties[v,])
 labpts <- st_coordinates(centroids)
 text(labpts[,1], labpts[,2], 
      lab=ifelse(shapefile.counties$COUNTYFP[v] %in% substr(anchors,3,5),match(shapefile.counties$COUNTYFP[v],substr(anchors,3,5)),
-                c("1/2","2/3","3/4")[1+as.numeric(shapefile.counties$COUNTYFP[v])%%3]), col="darkblue", cex=2)
+                c("1*2","2*3","3*4")[1+as.numeric(shapefile.counties$COUNTYFP[v])%%3]), col="darkblue", cex=2)
 for (i in 1:length(anchors)) { # draw the shape of the basis functions
     lines(x=labpts[which(shapefile.counties$COUNTYFP[v]==substr(anchors[i],3,5)),1]+0.005*(1:ncol(bases))-0.25, y=labpts[which(shapefile.counties$COUNTYFP[v]==substr(anchors[i],3,5)),2]+0.1*(bases[i,])-0.16, col="darkred", lwd=1)
 }
