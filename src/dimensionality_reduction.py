@@ -303,6 +303,102 @@ def visualize_manifold_method(X, emb_method, hyperparams_to_test, colors, filena
 
     return X_2D_emb, X_3D_emb
 
+def viz_SE(X, colors, filename = None, alpha = None, cbar = None, subselect = slice(None), ax = None, load_path = None, save_path = None): 
+    #Try Spectral Embedding
+    from sklearn.manifold import SpectralEmbedding
+
+    emb_method = SpectralEmbedding
+
+    hyperparams_to_test = {}#{'n_neighbors': [50, 50]}
+#     colors = colors#labels_multirun['Labels_3']#SE_clusters['x'].values
+    SE_X_2D_emb, SE_X_3D_emb = visualize_manifold_method(X, emb_method, hyperparams_to_test, colors, filename = filename,
+                                                         alpha = alpha, cbar = cbar, subselect = subselect, ax = ax, 
+                                                         load_path = load_path, save_path = save_path, **{'n_neighbors': 50,
+     'n_components': 2,
+     'n_jobs': -1})
+    
+#     SE_X_2D_emb, SE_X_3D_emb = visualize_manifold_method(X, emb_method, hyperparams_to_test, colors, filename = None, load_path = None, save_path = None, alpha = None, subselect = slice(None), cbar = None, ax = None, **kwargs)
+    
+    return SE_X_2D_emb, SE_X_3D_emb
+
+
+        
+def viz_Isomap(X, colors, filename = None, alpha = None, cbar = None, subselect = slice(None), ax = None, load_path = None, save_path = None):
+    emb_method = Isomap
+    hyperparams_to_test = {}#{'n_neighbors': [50, 50]}
+#     colors = colors#SE_clusters['x'].values#lusters[:,1]
+
+    Isomap_X_2D_emb, Isomap_X_3D_emb = visualize_manifold_method(X, emb_method, hyperparams_to_test, colors,
+                              filename = filename, 
+                              alpha = alpha, cbar = cbar, subselect = subselect, ax = ax, 
+                                                                 load_path = load_path, save_path = save_path, **{'n_neighbors': 50, 
+                                                                    'n_components': 2, 
+                                                                    'max_iter': 1000, 
+                                                                    'n_jobs': -1})
+    return Isomap_X_2D_emb, Isomap_X_3D_emb
+    
+def viz_LLE(X, colors, filename = None, alpha = None, cbar = None, subselect = slice(None), ax = None, load_path = None, save_path = None):
+    #Try LLE, standard, tweaked parameters a little
+    from sklearn.manifold import LocallyLinearEmbedding
+
+    emb_method = LocallyLinearEmbedding
+    hyperparams_to_test = {}#'n_neighbors': [200, 200],
+    # colors = clusters[:,1]
+
+
+    LLE_X_2D_emb, LLE_X_3D_emb = visualize_manifold_method(X, emb_method, hyperparams_to_test, colors,
+                              filename = filename, 
+                              alpha = alpha, cbar = cbar, subselect = subselect, ax = ax, load_path = load_path, 
+                                                           save_path = save_path, **{'n_neighbors': 200,
+                                                                       'n_components': 2,
+                                                                       'reg': 0.1,
+                                                                       'eigen_solver': 'auto',
+                                                                       'tol': 1e-06,
+                                                                       'max_iter': 1000,
+                                                                       'method': 'standard',
+                                                                       'hessian_tol': 0.0001,
+                                                                       'modified_tol': 1e-12,
+                                                                       'neighbors_algorithm': 'auto',  
+                                                                       'random_state': None,
+                                                                       'n_jobs': -1})
+    return LLE_X_2D_emb, LLE_X_3D_emb
+    
+    
+def viz_cluster_map(colors, index_X, filename = None, title = None, cbar_label = None, cmap = None, ax = None):#, washington_ = washington_):
+#     FIGURES_PATH = '/home/rlevin/notebooks/notebooks/datadrivenmethodsforgemspoliocovid/reports/figures/'
+    #FIX THIS FOR OTHER STATES!
+#     sns.set_palette("tab10")
+    if cmap is not None:
+        almost_sequential_pal = configurations['clustering_palette']#['#1f78b4','#a6cee3','#fdbf6f','#ff7f00', '#cc78bc']
+        friendly_cmap = ListedColormap(sns.color_palette(almost_sequential_pal, len(np.unique(colors))).as_hex())#'colorblind'
+    else:
+        friendly_cmap = None
+    washington = gpd.read_file(SHAPE_PATH)
+    washington_ = washington.copy()
+    washington_.GEOID = washington_.GEOID.astype('int')
+    washington_ = washington_.set_index('GEOID')
+    
+    colors = pd.DataFrame(colors, columns = ['c'])
+    colors['block_ind'] = index_X
+    colors = colors.set_index('block_ind')
+    washington_['colormap'] = colors['c']
+    if ax is None:
+        fig, ax = plt.subplots(figsize=(12, 10))
+        ax.axis('off')
+        washington_.plot(column = 'colormap', ax = ax, legend = True, edgecolor="face", cmap = friendly_cmap, linewidth=0.1, legend_kwds={'label': cbar_label,'orientation': "horizontal"})
+        ax.set(title= title)
+    else:
+        ax.axis('off')
+        washington_.plot(column = 'colormap', ax = ax, legend = False, edgecolor="lightgrey", cmap = friendly_cmap, linewidth=0.1, missing_kwds={'color': 'lightgrey'})
+        ax.set(title = title)
+    #TODO: handle demo missing data
+#     cbar = ax[1]#.get_figure().get_axes()[1]
+#     ticks = np.sort(np.unique(colors))[::-1]
+#     cbar_clust = fig.colorbar(wa_plot, ticks = ticks)
+        # print('CHECK CBAR:', np.sort(np.unique(colors))[::-1])
+#     cbar.set_yticklabels(['Cluster ' + str(i) for i in ticks])
+    if filename is not None:
+        fig.savefig(filename + '.png', bbox_inches = 'tight')
 
 if __name__ == "__main__":
     pass
