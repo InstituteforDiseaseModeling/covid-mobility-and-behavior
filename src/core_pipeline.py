@@ -32,7 +32,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 plt.rcParams['figure.dpi'] = 600
 
-def GMM_clustering_R(X_SE_df, method, default_cluster_num = None):
+def GMM_clustering_R(X_method_df, method, default_cluster_num = None):
     """Function to check BIC and perform GMM clustering on embedded dataset"""
     #First, import r packages and fix random seed:
     base = importr('base')
@@ -43,19 +43,19 @@ def GMM_clustering_R(X_SE_df, method, default_cluster_num = None):
     num_components_to_try = pd.Series(np.arange(1,12)) #try up to 12 components
     with localconverter(ro.default_converter + pandas2ri.converter):
         ro.r('set.seed(0)')
-        BIC_SE = mclust.mclustBIC(X_SE_df, G = num_components_to_try)
+        BIC_method = mclust.mclustBIC(X_method_df, G = num_components_to_try)
     
     model_names = ['EII', 'VII', 'EEI', 'VEI', 'EVI', 'VVI', 'EEE', 'EVE', 'VEE', 'VVE', 'EEV', 'VEV', 'EVV', 'VVV']
     sns.set(style="darkgrid")
 #     sns.set_palette("tab10")
-    BIC_SE_df = pd.DataFrame(BIC_SE, columns = model_names)
+    BIC_method_df = pd.DataFrame(BIC_method, columns = model_names)
 #     plt.figure()
-    BIC_SE_df.plot(marker = 'o')
+    BIC_method_df.plot(marker = 'o')
     plt.title('GMM BIC on ' + method.__name__)
     
     #Now, find the knee point of the optimal BIC plot (the best GMM parametrization)
-    best_parametrization = BIC_SE_df.columns[BIC_SE_df.max().argmax()]
-    kneedle = KneeLocator(num_components_to_try, BIC_SE_df[best_parametrization], S=1, curve='concave', direction='increasing', interp_method='interp1d')
+    best_parametrization = BIC_method_df.columns[BIC_method_df.max().argmax()]
+    kneedle = KneeLocator(num_components_to_try, BIC_method_df[best_parametrization], S=1, curve='concave', direction='increasing', interp_method='polynomial')
 #     plt.figure()
     kneedle.plot_knee()
     plt.title('GMM BIC on ' + method.__name__ + ': Knee Point')
@@ -69,21 +69,19 @@ def GMM_clustering_R(X_SE_df, method, default_cluster_num = None):
         best_num_components = default_cluster_num-1
     with localconverter(ro.default_converter + pandas2ri.converter):
         ro.r('set.seed(0)')
-        mc = mclust.Mclust(X_SE_df, G = pd.Series([num_components_to_try[best_num_components]]))
+        mc = mclust.Mclust(X_method_df, G = pd.Series([num_components_to_try[best_num_components]]))
         print(base.summary(mc))
         print('Uncertainty quantiles:', np.quantile(mc[15], [0, 0.25, 0.5, 0.75, 1]))
         mc_dict = convert_to_python_dict(mc)
-        SE_model_name = mc_dict['modelName']
-        print(SE_model_name)
+        method_model_name = mc_dict['modelName']
+        print(method_model_name)
         param = mc_dict['parameters']
-        SE_means = np.array(convert_to_python_dict(param)['mean'])
-        SE_uncertainty = np.array(mc_dict['uncertainty'])
-        SE_z = np.array(convert_to_python_dict(mc)['z'])
-        SE_clusters = np.array(convert_to_python_dict(mc)['classification'])
-        SE_means = pd.DataFrame(SE_means, columns = ['V'+str(i+1) for i in range(SE_means.shape[1])])
-#         np.array(mc[14])
-#         SE_means = np.array(mc[12][1])
-    return SE_clusters, SE_means, SE_z, SE_uncertainty
+        method_means = np.array(convert_to_python_dict(param)['mean'])
+        method_uncertainty = np.array(mc_dict['uncertainty'])
+        method_z = np.array(convert_to_python_dict(mc)['z'])
+        method_clusters = np.array(convert_to_python_dict(mc)['classification'])
+        method_means = pd.DataFrame(method_means, columns = ['V'+str(i+1) for i in range(method_means.shape[1])])
+    return method_clusters, method_means, method_z, method_uncertainty
 
 def create_avg_df(SE_clusters, index_X, covid_):
     SE_clusters_block_indexed = pd.Series(SE_clusters, index = index_X)
@@ -228,7 +226,7 @@ def add_state_to_fig(state, fig, spec, row, NUM_STATES, X, reordered_SE_clusters
         if separate:
             fig.savefig(os.path.join(FIGURE_PATH, state + '_time_series_col_3.png'), bbox_inches = 'tight',  pad_inches=0, dpi = 900)
 
-def analysis(STATE, method, method_kwargs, hyperparams_to_test, fig, spec, row, precomputed = False, separate = False, two_cols = False, NUM_STATES = 1, configurations = None):
+def analysis(STATE, method, method_kwargs, hyperparams_to_test, fig, spec, row, precomputed = False, separate = False, two_cols = False, NUM_STATES = 1, configurations = None, default_cluster_num=5):
     #First, define appropriate paths
     SHAPE_PATH, FIGURE_PATH, RAW_DATA_PATH, INCOME_POPULATION_PATH = define_paths(STATE)
     
@@ -298,10 +296,10 @@ def analysis(STATE, method, method_kwargs, hyperparams_to_test, fig, spec, row, 
     mclust = importr('mclust')
     ro.r('set.seed(1)')
     
-    dontprecomputeclusters = True
+    dontprecomputeclusters = True#not precomputed
 #     if not precomputed:
     if dontprecomputeclusters:
-        clusters, means, z, uncertainty = GMM_clustering_R(X_method_df, method, default_cluster_num=5) #could change this to 5 to be consistent across states to auto-id clust #
+        clusters, means, z, uncertainty = GMM_clustering_R(X_method_df, method, default_cluster_num=default_cluster_num) #could change this to 5 to be consistent across states to auto-id clust #
         clusters_block_indexed = pd.Series(clusters, index = index_X)
 
         avg_per_clust = create_avg_df(clusters, index_X, covid_)
