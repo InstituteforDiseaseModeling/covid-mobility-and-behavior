@@ -112,8 +112,9 @@ def index_with_blocks_and_save(STATE, emb_df_optimal_D, emb_2D, emb_3D, clusters
     df_uncertainty.to_csv(os.path.join(path_to_processed, 'uncertainty_' + STATE + '.csv'))
     return df_optimal_D, df_2D, df_3D, df_clusters, df_z, df_uncertainty
 
-def add_state_to_fig(state, fig, spec, row, NUM_STATES, X, reordered_SE_clusters, index_X, reordered_avg_per_clust, load_path = None, save_path = None, separate = False, two_cols = False):
-    almost_sequential_pal = ['#1f78b4','#a6cee3','#fdbf6f','#ff7f00', '#cc78bc']
+def add_state_to_fig(state, fig, spec, row, NUM_STATES, X, reordered_SE_clusters, index_X, reordered_avg_per_clust, load_path = None, save_path = None, separate = False, two_cols = False, configurations = None):
+    SHAPE_PATH, FIGURE_PATH, RAW_DATA_PATH, INCOME_POPULATION_PATH = define_paths(state)
+    almost_sequential_pal = configurations['clustering_palette']#['#1f78b4','#a6cee3','#fdbf6f','#ff7f00', '#cc78bc']
     sns.set_palette(almost_sequential_pal)
     NUM_COLS = 3
     if two_cols:
@@ -184,7 +185,7 @@ def add_state_to_fig(state, fig, spec, row, NUM_STATES, X, reordered_SE_clusters
     else:
         cmap = 'clust'
         
-    viz_cluster_map(reordered_SE_clusters, index_X, filename = None, cmap = cmap, ax = ax, title = state)
+    viz_cluster_map(reordered_SE_clusters, index_X, filename = None, cmap = cmap, ax = ax, title = state, state = state)
     ax.set_title('')
     plt.axis('tight')
     
@@ -227,7 +228,7 @@ def add_state_to_fig(state, fig, spec, row, NUM_STATES, X, reordered_SE_clusters
         if separate:
             fig.savefig(os.path.join(FIGURE_PATH, state + '_time_series_col_3.png'), bbox_inches = 'tight',  pad_inches=0, dpi = 900)
 
-def analysis(STATE, method, method_kwargs, hyperparams_to_test, fig, spec, row, precomputed = False, separate = False, two_cols = False):
+def analysis(STATE, method, method_kwargs, hyperparams_to_test, fig, spec, row, precomputed = False, separate = False, two_cols = False, NUM_STATES = 1, configurations = None):
     #First, define appropriate paths
     SHAPE_PATH, FIGURE_PATH, RAW_DATA_PATH, INCOME_POPULATION_PATH = define_paths(STATE)
     
@@ -333,7 +334,7 @@ def analysis(STATE, method, method_kwargs, hyperparams_to_test, fig, spec, row, 
     sns.set(style="whitegrid")
     if two_cols:
         reordered_clusters = cos_colors #Change colors
-    add_state_to_fig(STATE, fig, spec, row, NUM_STATES, X, reordered_clusters, index_X, reordered_avg_per_clust, load_path = load_path, save_path = save_path, separate = separate, two_cols = two_cols)
+    add_state_to_fig(STATE, fig, spec, row, NUM_STATES, X, reordered_clusters, index_X, reordered_avg_per_clust, load_path = load_path, save_path = save_path, separate = separate, two_cols = two_cols, configurations = configurations)
     
 if __name__ == "__main__":
     pass

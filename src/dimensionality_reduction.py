@@ -12,7 +12,17 @@ from mpl_toolkits.mplot3d import Axes3D
 from copy import copy
 from matplotlib.colors import ListedColormap
 import os
+import pandas as pd
 from src.config import configurations
+import scipy
+from datetime import datetime
+from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.manifold import Isomap
+from sklearn.manifold import LocallyLinearEmbedding
+from sklearn.manifold import SpectralEmbedding
+import geopandas as gpd
+from src.utils import define_paths, load_data, convert_to_python_dict, save_obj, load_obj, find_closest_time_series
+from src.utils import plot_time_series, find_cos_similarity, intersection, relabel_clusters
 
 #for PCA
 def compute_covariance(X):
@@ -189,6 +199,10 @@ def visualize_manifold_method(X, emb_method, hyperparams_to_test, colors, filena
     """
     # IMG_PATH = "/home/rlevin/notebooks/notebooks/datadrivenmethodsforgemspoliocovid/reports/figures/exploratory/covid/dim_red_viz/"+name_prefix
     # FIGURES_PATH = '/home/rlevin/notebooks/notebooks/datadrivenmethodsforgemspoliocovid/reports/figures/'
+    if save_path is not None:
+        if not os.path.isdir(save_path):
+            os.mkdir(save_path)
+
     sns.set_style("whitegrid", {'axes.grid' : False})
     # sns.set_palette('colorblind')
     if cbar == 'clustering':
@@ -305,7 +319,6 @@ def visualize_manifold_method(X, emb_method, hyperparams_to_test, colors, filena
 
 def viz_SE(X, colors, filename = None, alpha = None, cbar = None, subselect = slice(None), ax = None, load_path = None, save_path = None): 
     #Try Spectral Embedding
-    from sklearn.manifold import SpectralEmbedding
 
     emb_method = SpectralEmbedding
 
@@ -339,7 +352,6 @@ def viz_Isomap(X, colors, filename = None, alpha = None, cbar = None, subselect 
     
 def viz_LLE(X, colors, filename = None, alpha = None, cbar = None, subselect = slice(None), ax = None, load_path = None, save_path = None):
     #Try LLE, standard, tweaked parameters a little
-    from sklearn.manifold import LocallyLinearEmbedding
 
     emb_method = LocallyLinearEmbedding
     hyperparams_to_test = {}#'n_neighbors': [200, 200],
@@ -364,10 +376,12 @@ def viz_LLE(X, colors, filename = None, alpha = None, cbar = None, subselect = s
     return LLE_X_2D_emb, LLE_X_3D_emb
     
     
-def viz_cluster_map(colors, index_X, filename = None, title = None, cbar_label = None, cmap = None, ax = None):#, washington_ = washington_):
+def viz_cluster_map(colors, index_X, filename = None, title = None, cbar_label = None, cmap = None, ax = None, state = None):#, washington_ = washington_):
 #     FIGURES_PATH = '/home/rlevin/notebooks/notebooks/datadrivenmethodsforgemspoliocovid/reports/figures/'
     #FIX THIS FOR OTHER STATES!
 #     sns.set_palette("tab10")
+    SHAPE_PATH, FIGURE_PATH, RAW_DATA_PATH, INCOME_POPULATION_PATH = define_paths(state)
+
     if cmap is not None:
         almost_sequential_pal = configurations['clustering_palette']#['#1f78b4','#a6cee3','#fdbf6f','#ff7f00', '#cc78bc']
         friendly_cmap = ListedColormap(sns.color_palette(almost_sequential_pal, len(np.unique(colors))).as_hex())#'colorblind'
