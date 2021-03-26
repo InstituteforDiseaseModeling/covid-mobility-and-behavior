@@ -296,7 +296,7 @@ def analysis(STATE, method, method_kwargs, hyperparams_to_test, fig, spec, row, 
     mclust = importr('mclust')
     ro.r('set.seed(1)')
     
-    dontprecomputeclusters = True#not precomputed
+    dontprecomputeclusters = not precomputed
 #     if not precomputed:
     if dontprecomputeclusters:
         clusters, means, z, uncertainty = GMM_clustering_R(X_method_df, method, default_cluster_num=default_cluster_num) #could change this to 5 to be consistent across states to auto-id clust #
