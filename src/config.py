@@ -25,6 +25,10 @@ WASHINGTON_FIGURE_PATH = os.path.abspath(os.path.join(project_dir, 'reports', 'f
 TEXAS_FIGURE_PATH = os.path.abspath(os.path.join(project_dir, 'reports', 'figures', 'TX'))
 GEORGIA_FIGURE_PATH = os.path.abspath(os.path.join(project_dir, 'reports', 'figures', 'GA'))
 CALIFORNIA_FIGURE_PATH = os.path.abspath(os.path.join(project_dir, 'reports', 'figures', 'CA'))
+
+#Demo
+SYNTHETIC_WASHINGTON_FIGURE_PATH = os.path.abspath(os.path.join(project_dir, 'reports', 'figures', 'demo'))
+
 FIGURE_PATH = os.path.abspath(os.path.join(project_dir, 'reports', 'figures'))
 
 #Data:
@@ -33,6 +37,10 @@ WASHINGTON_RAW_DATA_PATH = os.path.abspath(os.path.join(project_dir, 'data', 'ra
 GEORGIA_RAW_DATA_PATH = os.path.abspath(os.path.join(project_dir, 'data', 'raw', 'stayathome-georgia.csv'))
 TEXAS_RAW_DATA_PATH = os.path.abspath(os.path.join(project_dir, 'data', 'raw', 'stayathome-texas.csv'))
 CALIFORNIA_RAW_DATA_PATH = os.path.abspath(os.path.join(project_dir, 'data', 'raw', 'stayathome-california.csv'))
+
+#Demo data
+SYNTHETIC_WASHINGTON_RAW_DATA_PATH = os.path.abspath(os.path.join(project_dir, 'data', 'demo', 'synthetic-stayathome-washington.csv'))
+
 
 #Income-population path:
 INCOME_POPULATION_PATH = os.path.join(DATA_PATH, 'external', 'income_population')
@@ -62,7 +70,10 @@ configurations = {
 'TEXAS_RAW_DATA_PATH': TEXAS_RAW_DATA_PATH,
 'CALIFORNIA_RAW_DATA_PATH': CALIFORNIA_RAW_DATA_PATH,
 'INCOME_POPULATION_PATH': INCOME_POPULATION_PATH,
-'PROJECT_DIR' : project_dir
+'PROJECT_DIR' : project_dir,
+
+'SYNTHETIC_WASHINGTON_RAW_DATA_PATH': SYNTHETIC_WASHINGTON_RAW_DATA_PATH,
+'SYNTHETIC_WASHINGTON_FIGURE_PATH': SYNTHETIC_WASHINGTON_FIGURE_PATH
 }
 
 

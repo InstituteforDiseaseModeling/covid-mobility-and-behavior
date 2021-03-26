@@ -155,6 +155,8 @@ def save_obj(obj, name):
     Returns
     -------
     """
+    if not os.path.isdir('obj'):
+        os.mkdir('obj')
     with open(os.path.join('obj', name + '.pkl'), 'wb') as f:
         pickle.dump(obj, f, pickle.HIGHEST_PROTOCOL)
 
@@ -222,6 +224,10 @@ def define_paths(STATE):
     TEXAS_FIGURE_PATH = configurations['TEXAS_FIGURE_PATH']
     GEORGIA_FIGURE_PATH = configurations['GEORGIA_FIGURE_PATH']
     CALIFORNIA_FIGURE_PATH = configurations['CALIFORNIA_FIGURE_PATH']
+
+    #Demo data:
+    SYNTHETIC_WASHINGTON_FIGURE_PATH = configurations['SYNTHETIC_WASHINGTON_FIGURE_PATH']
+    
     FIGURE_PATH = configurations['FIGURE_PATH']
 
     #Data:
@@ -230,6 +236,8 @@ def define_paths(STATE):
     GEORGIA_RAW_DATA_PATH = configurations['GEORGIA_RAW_DATA_PATH']
     TEXAS_RAW_DATA_PATH = configurations['TEXAS_RAW_DATA_PATH']
     CALIFORNIA_RAW_DATA_PATH = configurations['CALIFORNIA_RAW_DATA_PATH']
+    #Demo data:
+    SYNTHETIC_WASHINGTON_RAW_DATA_PATH = configurations['SYNTHETIC_WASHINGTON_RAW_DATA_PATH']
     
     #Income-population path:
     INCOME_POPULATION_PATH = os.path.join(DATA_PATH, 'external', 'income_population')
@@ -242,7 +250,6 @@ def define_paths(STATE):
         SHAPE_PATH = TEXAS_SHAPE_PATH
         FIGURE_PATH = TEXAS_FIGURE_PATH
         RAW_DATA_PATH = TEXAS_RAW_DATA_PATH
-#         DATA_PATH  = 
     if STATE == 'ga':
         SHAPE_PATH = GEORGIA_SHAPE_PATH
         FIGURE_PATH = GEORGIA_FIGURE_PATH
@@ -251,6 +258,10 @@ def define_paths(STATE):
         SHAPE_PATH = CALIFORNIA_SHAPE_PATH
         FIGURE_PATH = CALIFORNIA_FIGURE_PATH
         RAW_DATA_PATH = CALIFORNIA_RAW_DATA_PATH
+    if STATE == 'demo':
+        SHAPE_PATH = WASHINGTON_SHAPE_PATH
+        FIGURE_PATH = SYNTHETIC_WASHINGTON_FIGURE_PATH
+        RAW_DATA_PATH = SYNTHETIC_WASHINGTON_RAW_DATA_PATH
     return SHAPE_PATH, FIGURE_PATH, RAW_DATA_PATH, INCOME_POPULATION_PATH
 
 #Load the data
@@ -284,58 +295,112 @@ def load_data(RAW_DATA_PATH):
     return covid_block_indexed, X, index_X, columns_X
 
 
-def GMM_clustering_R(X_SE_df, method, default_cluster_num = None):
-    """Function to check BIC and perform GMM clustering on embedded dataset"""
-    #First, import r packages and fix random seed:
-    base = importr('base')
-    mclust = importr('mclust')
-    ro.r('set.seed(0)')
+# def GMM_clustering_R(X_SE_df, method, default_cluster_num = None):
+#     """Function to check BIC and perform GMM clustering on embedded dataset"""
+#     #First, import r packages and fix random seed:
+#     base = importr('base')
+#     mclust = importr('mclust')
+#     ro.r('set.seed(0)')
     
-    #Now, check BIC and make a plot
-    num_components_to_try = pd.Series(np.arange(1,12)) #try up to 12 components
-    with localconverter(ro.default_converter + pandas2ri.converter):
-        ro.r('set.seed(0)')
-        BIC_SE = mclust.mclustBIC(X_SE_df, G = num_components_to_try)
+#     #Now, check BIC and make a plot
+#     num_components_to_try = pd.Series(np.arange(1,12)) #try up to 12 components
+#     with localconverter(ro.default_converter + pandas2ri.converter):
+#         ro.r('set.seed(0)')
+#         BIC_SE = mclust.mclustBIC(X_SE_df, G = num_components_to_try)
     
-    model_names = ['EII', 'VII', 'EEI', 'VEI', 'EVI', 'VVI', 'EEE', 'EVE', 'VEE', 'VVE', 'EEV', 'VEV', 'EVV', 'VVV']
-    sns.set(style="darkgrid")
-#     sns.set_palette("tab10")
-    BIC_SE_df = pd.DataFrame(BIC_SE, columns = model_names)
-#     plt.figure()
-    BIC_SE_df.plot(marker = 'o')
-    plt.title('GMM BIC on ' + method.__name__)
+#     model_names = ['EII', 'VII', 'EEI', 'VEI', 'EVI', 'VVI', 'EEE', 'EVE', 'VEE', 'VVE', 'EEV', 'VEV', 'EVV', 'VVV']
+#     sns.set(style="darkgrid")
+# #     sns.set_palette("tab10")
+#     BIC_SE_df = pd.DataFrame(BIC_SE, columns = model_names)
+# #     plt.figure()
+#     BIC_SE_df.plot(marker = 'o')
+#     plt.title('GMM BIC on ' + method.__name__)
     
-    #Now, find the knee point of the optimal BIC plot (the best GMM parametrization)
-    best_parametrization = BIC_SE_df.columns[BIC_SE_df.max().argmax()]
-    kneedle = KneeLocator(num_components_to_try, BIC_SE_df[best_parametrization], S=1, curve='concave', direction='increasing', interp_method='interp1d')
-#     plt.figure()
-    kneedle.plot_knee()
-    plt.title('GMM BIC on ' + method.__name__ + ': Knee Point')
-    plt.xlabel('num_GMM_components')
-    plt.ylabel('')
-    print('Elbow point: {} components with BIC {}'.format(kneedle.knee, kneedle.knee_y))
+#     #Now, find the knee point of the optimal BIC plot (the best GMM parametrization)
+#     best_parametrization = BIC_SE_df.columns[BIC_SE_df.max().argmax()]
+#     kneedle = KneeLocator(num_components_to_try, BIC_SE_df[best_parametrization], S=1, curve='concave', direction='increasing', interp_method='interp1d')
+# #     plt.figure()
+#     kneedle.plot_knee()
+#     plt.title('GMM BIC on ' + method.__name__ + ': Knee Point')
+#     plt.xlabel('num_GMM_components')
+#     plt.ylabel('')
+#     print('Elbow point: {} components with BIC {}'.format(kneedle.knee, kneedle.knee_y))
     
-    #Pick the best number of GMM components:
-    best_num_components = kneedle.knee-1
-    if default_cluster_num is not None:
-        best_num_components = default_cluster_num-1
-    with localconverter(ro.default_converter + pandas2ri.converter):
-        ro.r('set.seed(0)')
-        mc = mclust.Mclust(X_SE_df, G = pd.Series([num_components_to_try[best_num_components]]))
-        print(base.summary(mc))
-        print('Uncertainty quantiles:', np.quantile(mc[15], [0, 0.25, 0.5, 0.75, 1]))
-        mc_dict = convert_to_python_dict(mc)
-        SE_model_name = mc_dict['modelName']
-        print(SE_model_name)
-        param = mc_dict['parameters']
-        SE_means = np.array(convert_to_python_dict(param)['mean'])
-        SE_uncertainty = np.array(mc_dict['uncertainty'])
-        SE_z = np.array(convert_to_python_dict(mc)['z'])
-        SE_clusters = np.array(convert_to_python_dict(mc)['classification'])
-        SE_means = pd.DataFrame(SE_means, columns = ['V'+str(i+1) for i in range(SE_means.shape[1])])
-#         np.array(mc[14])
-#         SE_means = np.array(mc[12][1])
-    return SE_clusters, SE_means, SE_z, SE_uncertainty
+#     #Pick the best number of GMM components:
+#     best_num_components = kneedle.knee-1
+#     if default_cluster_num is not None:
+#         best_num_components = default_cluster_num-1
+#     with localconverter(ro.default_converter + pandas2ri.converter):
+#         ro.r('set.seed(0)')
+#         mc = mclust.Mclust(X_SE_df, G = pd.Series([num_components_to_try[best_num_components]]))
+#         print(base.summary(mc))
+#         print('Uncertainty quantiles:', np.quantile(mc[15], [0, 0.25, 0.5, 0.75, 1]))
+#         mc_dict = convert_to_python_dict(mc)
+#         SE_model_name = mc_dict['modelName']
+#         print(SE_model_name)
+#         param = mc_dict['parameters']
+#         SE_means = np.array(convert_to_python_dict(param)['mean'])
+#         SE_uncertainty = np.array(mc_dict['uncertainty'])
+#         SE_z = np.array(convert_to_python_dict(mc)['z'])
+#         SE_clusters = np.array(convert_to_python_dict(mc)['classification'])
+#         SE_means = pd.DataFrame(SE_means, columns = ['V'+str(i+1) for i in range(SE_means.shape[1])])
+# #         np.array(mc[14])
+# #         SE_means = np.array(mc[12][1])
+#     return SE_clusters, SE_means, SE_z, SE_uncertainty
+
+def find_cos_similarity(X_2D_emb):
+    right_end = X_2D_emb[np.argmax(X_2D_emb, axis = 0)[0]]
+    left_end = X_2D_emb[np.argmin(X_2D_emb, axis = 0)[0]]
+    left_end, right_end, np.argmin(X_2D_emb, axis = 0)[0]
+    center = (left_end + right_end)/2
+    cosine_colors = 1-cosine_similarity([right_end - center], X_2D_emb-center, dense_output=True).flatten()
+    return cosine_colors
+
+from scipy.spatial.distance import squareform, pdist
+
+def intersection(f, g):
+#     dates_of_intersection = f.index[38:]
+    f1 = f[38:]
+    g1 = g[38:]
+    idx = np.argwhere(np.diff(np.sign(f1 - g1))).flatten()
+    return len(idx)
+
+def relabel_clusters(clusters, avg_per_clust, means, z, uncertainty):
+    means = means.copy()
+    num_clust = len(np.unique(clusters))
+    intersections = pd.DataFrame(squareform(pdist(avg_per_clust, metric = intersection)), index = avg_per_clust.index, columns = avg_per_clust.index)
+    #Define the one with more than 1 intersection as the off-manifold
+#     if np.squeeze(np.where((intersections > 0).sum() > 1)).size > 0:
+    print(intersections)
+    off_manifold = np.argmax((intersections > 0).sum(axis = 0))+1 #+1 to be consistent with clust numbering
+    #int(np.squeeze(np.where((intersections.values > 0).sum() > 1)))+1
+    off_manifold_bool = np.zeros(num_clust).astype('bool')
+    off_manifold_bool[np.argmax((intersections > 0).sum(axis = 0))] = True
+    #((intersections > 0).sum() > 1).values
+#     print('!!! off manifold:', off_manifold)
+#     else:
+#         off_manifold = int(np.squeeze(np.where((intersections > 0).sum() > 0)))+1
+#         off_manifold_bool = ((intersections > 0).sum() > 0).values
+    ordered_clusters_no_off_manifold = avg_per_clust.T.mean()[~off_manifold_bool].sort_values()#[::-1]
+#     print(ordered_clusters_no_off_manifold)
+    new_ordered_clusters = []
+    new_ordered_mean_cols = {}
+    for cluster in clusters:
+#         print(clusters)
+#         print(off_manifold)
+        if cluster == off_manifold:#np.array([off_manifold]).flatten():
+            new_ordered_clusters.append(num_clust)
+            new_ordered_mean_cols['V'+str(cluster)] = 'V'+str(num_clust)
+        else:
+#             print('cluster: ', cluster)
+#             print(ordered_clusters_no_off_manifold.index)
+#             print(np.where(cluster == ordered_clusters_no_off_manifold.index))
+            new_clust_label = int(np.squeeze(np.where(int(cluster) == ordered_clusters_no_off_manifold.index.astype('int'))))+1
+            new_ordered_clusters.append(new_clust_label)
+            new_ordered_mean_cols['V'+str(cluster)] = 'V'+str(new_clust_label)
+            
+    new_ordered_means = means.rename(columns = new_ordered_mean_cols)
+    return np.array(new_ordered_clusters), new_ordered_means, pd.DataFrame(z, columns = new_ordered_means.columns), uncertainty
 
 if __name__ == "__main__":
     pass
