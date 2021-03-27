@@ -47,7 +47,9 @@ One county was selected to be based on each of the 4 basis functions. Time serie
 
 Synthetic time series are generated for the remaining CBGs using a combination of two of the basis functions. Each county is assigned a pair of basis functions, and the time series for each CBG is the product of one basis function + a random weight and the other function + another random weight. These time series are essentially products of two basis functions.
 
-![basis functions](assets/synthmap-counties.png =250x250)
+<img src="https://github.com/InstituteforDiseaseModeling/covid-mobility-and-behavior/blob/master/assets/synthmap-counties.png" width="100" height="100">
+
+
 
 
 Project Organization
