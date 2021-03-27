@@ -8,16 +8,17 @@
 
 library(sf)
 
-censusdatadirectory <- "../data/"  # census data
+censusdatadirectory <- "../data/external/"  # census data
 syntheticdatadirectory <- ""  # output directory for synthetic data
 statename <- "washington"
+statename_short <- "wa"
 statefips <- 53
 
 set.seed(1) # set random number generator seed for replicability
 
 # load shapefiles
-shapefile.cbg <- read_sf(paste(censusdatadirectory,"cb_2019_",statefips,"_bg_500k.shp",sep=""))
-shapefile.counties <- read_sf(paste(censusdatadirectory,"cb_2018_us_county_20m.shp",sep=""))
+shapefile.cbg <- read_sf(paste(censusdatadirectory, statename_short, "_shape/", "cb_2019_",statefips,"_bg_500k.shp",sep=""))
+shapefile.counties <- read_sf(paste(censusdatadirectory, statename_short, "_county_shape/", "cb_2018_us_county_20m.shp",sep=""))
 
 # initialize synthetic data matrix
 cbglist <- shapefile.cbg$GEOID

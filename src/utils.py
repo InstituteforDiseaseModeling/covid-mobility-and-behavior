@@ -28,9 +28,7 @@ import seaborn as sns
 from src.config import configurations
 import os
 from pathlib import Path
-# from src.dimensionality_reduction import compute_covariance, explained_variance
 import sklearn.decomposition
-#Imports
 import pandas as pd
 import numpy as np
 import os
@@ -42,7 +40,6 @@ import geopandas as gpd
 import datetime
 import scipy
 from src.config import configurations
-# from src.dimensionality_reduction import compute_covariance, visualize_manifold_method, choose_dimension
 from rpy2.robjects.packages import importr
 import rpy2.robjects as ro
 from rpy2.robjects import r, pandas2ri
@@ -371,7 +368,7 @@ def relabel_clusters(clusters, avg_per_clust, means, z, uncertainty):
     intersections = pd.DataFrame(squareform(pdist(avg_per_clust, metric = intersection)), index = avg_per_clust.index, columns = avg_per_clust.index)
     #Define the one with more than 1 intersection as the off-manifold
 #     if np.squeeze(np.where((intersections > 0).sum() > 1)).size > 0:
-    print(intersections)
+    # print(intersections)
     off_manifold = np.argmax((intersections > 0).sum(axis = 0))+1 #+1 to be consistent with clust numbering
     #int(np.squeeze(np.where((intersections.values > 0).sum() > 1)))+1
     off_manifold_bool = np.zeros(num_clust).astype('bool')

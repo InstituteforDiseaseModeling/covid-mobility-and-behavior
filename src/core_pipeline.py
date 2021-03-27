@@ -49,6 +49,7 @@ def GMM_clustering_R(X_method_df, method, default_cluster_num = None):
     sns.set(style="darkgrid")
 #     sns.set_palette("tab10")
     BIC_method_df = pd.DataFrame(BIC_method, columns = model_names)
+    BIC_method_df = BIC_method_df.dropna(axis=1) #drop parametrizations with NaNs
 #     plt.figure()
     BIC_method_df.plot(marker = 'o')
     plt.title('GMM BIC on ' + method.__name__)

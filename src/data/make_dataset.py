@@ -7,10 +7,10 @@ import zipfile
 
 
 # find .env automagically by walking up directories until it's found
-dotenv_path = find_dotenv()
+# dotenv_path = find_dotenv()
 
 # load up the entries as environment variables
-load_dotenv(dotenv_path)
+# load_dotenv(dotenv_path)
 
 #Get raw data download url from .env (should be defined there)
 # raw_data_url = os.environ.get("RAW_DATA_URL")
@@ -29,6 +29,8 @@ wa_shape = 'https://www2.census.gov/geo/tiger/GENZ2019/shp/cb_2019_53_bg_500k.zi
 tx_shape = 'https://www2.census.gov/geo/tiger/GENZ2019/shp/cb_2019_48_bg_500k.zip'#'https://www2.census.gov/geo/tiger/TIGER2019/BG/tl_2019_48_bg.zip'
 ca_shape = 'https://www2.census.gov/geo/tiger/GENZ2019/shp/cb_2019_06_bg_500k.zip'#'https://www2.census.gov/geo/tiger/TIGER2019/BG/tl_2019_06_bg.zip'
 ga_shape = 'https://www2.census.gov/geo/tiger/GENZ2019/shp/cb_2019_13_bg_500k.zip'#'https://www2.census.gov/geo/tiger/TIGER2019/BG/tl_2019_13_bg.zip'
+#WA county shape file (for demo):
+wa_county_shape = 'https://www2.census.gov/geo/tiger/GENZ2018/shp/cb_2018_us_county_20m.zip'
 
 def create_data_directories():
     """Creates data directories
@@ -131,6 +133,9 @@ def main():
     ca_shape_path = os.path.join(external_data_path, 'ca_shape')
     download_and_unzip_data(ca_shape, ca_shape_path)
 
+    #WA counties shape file:
+    wa_county_shape_path = os.path.join(external_data_path, 'wa_county_shape')
+    download_and_unzip_data(wa_county_shape, wa_county_shape_path)
 
     #Download and save places
     print('Downloading and saving places')
@@ -156,16 +161,6 @@ def main():
     return
 
 
-
-# #@click.command()
-# #@click.argument('input_filepath', type=click.Path(exists=True))
-# #@click.argument('output_filepath', type=click.Path())
-# def main(input_filepath, output_filepath):
-#     """ Runs data processing scripts to turn raw data from (../raw) into
-#         cleaned data ready to be analyzed (saved in ../processed).
-#     """
-#     logger = logging.getLogger(__name__)
-#     logger.info('making final data set from raw data')
 
 
 if __name__ == '__main__':

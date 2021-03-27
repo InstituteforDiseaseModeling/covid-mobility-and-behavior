@@ -45,7 +45,7 @@ SYNTHETIC_WASHINGTON_RAW_DATA_PATH = os.path.abspath(os.path.join(project_dir, '
 #Income-population path:
 INCOME_POPULATION_PATH = os.path.join(DATA_PATH, 'external', 'income_population')
 
-print(project_dir)
+print('Project dir: {}'.format(project_dir))
 
 configurations = {
 'clustering_palette': ['#1f78b4','#a6cee3','#fdbf6f','#ff7f00', '#cc78bc'],#sns.color_palette("tab10"), 
