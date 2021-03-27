@@ -47,7 +47,7 @@ Project Organization
     ├── setup.py           <- Installation script for the local package
     │
     ├── demo
-    |   ├──obj             <- Directory to save computed objects
+    |   ├──obj             <- Directory to save computed helper objects
     |   |
     │   ├── Demo-Main-Analysis.ipynb    <- Main demo notebook with the dimesionality reduction + clustering pipeline applied to synthetic demo data
     │   └── make-synthetic-wa.R         <- Script to generate demo data: synthetic mobility dynamics in Washington state
@@ -59,7 +59,7 @@ Project Organization
     │   └── raw            <- Raw data -- this is where SafeGraph mobility data should be placed 
     │
     ├── notebooks          <- Jupyter notebooks with the analysis code and the code to generate figures
-    |   ├──obj             <- Directory to save computed objects
+    |   ├──obj             <- Directory to save computed helper objects
     |   |
     │   ├── Main-Analysis-Figure2.ipynb    <- Main notebook with the dimesionality reduction + clustering pipeline applied to all 4 states, produces Figure 2
     │   ├── Schematic-Figure1.ipynb        <- Generates panels for the pipeline description in Figure 1 of the paper
