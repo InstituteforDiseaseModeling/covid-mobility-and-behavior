@@ -31,13 +31,12 @@ Now, we can download the data. The following will download necessary external da
 
     make data
    
-The raw SafeGraph data cannot be downloaded automatically and has to be requested through <a href = "https://www.safegraph.com/covid-19-data-consortium">SafeGraph COVID data consortium</a>. The CBG-level mobility data should be placed in data/raw.
+Now we should be able to run the demo notebook from the [/demo](/demo) folder.
+The raw SafeGraph data cannot be downloaded automatically and has to be requested through <a href = "https://www.safegraph.com/covid-19-data-consortium">SafeGraph COVID data consortium</a>. The CBG-level mobility data should be placed in `data/raw`.
     
-Finally, we should be able to run notebooks from the [/notebooks](/notebooks) folder. Dennis, please use the <a href = "https://github.com/InstituteforDiseaseModeling/covid-mobility-and-behavior/blob/master/notebooks/Supplement_PCA_explained_variance.ipynb">PCA Explained Variance notebook</a> for now to test the code. If it works, that would mean that the local package was installed correctly and that the data was downloaded and saved correctly.
-Other notebooks are in the process of being cleaned up and are coming very soon!
 
 
-Project Organization (draft)
+Project Organization
 ------------
 
     ├── LICENSE
@@ -56,7 +55,7 @@ Project Organization (draft)
     │   ├── external       <- Data from external sources, e.g. shapefiles for plotting maps (from census.gov)  
     │   ├── interim        <- Intermediate data files
     │   ├── processed      <- Final data sets -- final clustering labels and final low-dimensional coordinates for every state
-    │   └── raw            <- Raw data -- this is where <a href = "https://www.safegraph.com/covid-19-data-consortium">SafeGraph mobility data</a> should be placed 
+    │   └── raw            <- Raw data -- this is where SafeGraph mobility data should be placed 
     │
     ├── notebooks          <- Jupyter notebooks with the analysis code and the code to generate figures
     |   ├──obj             <- Directory to save computed objects
