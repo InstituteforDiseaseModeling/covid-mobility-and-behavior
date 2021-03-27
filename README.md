@@ -39,18 +39,27 @@ Note that the raw SafeGraph data is not publicly accessible and cannot be downlo
 
 Demo
 -----
+#### Demo dataset description
 Since we cannot share the SafeGraph data directly, we provide a demo dataset to showcase our method. 
 
 Synthetic time series are generated for each CBG in Washington State. The time series are based on 4 basis functions: two different sine waves and two exponentials (one rising and one falling).
 
 One county was selected to be based on each of the 4 basis functions. Time series are generated for each CBG within these counties by multiplying the appropriate basis function by a random number. Thus, all CBGs within a single county are the same function multiplied by a scalar. Noise is added to the synthetic time series.
 
-Synthetic time series are generated for the remaining CBGs using a combination of two of the basis functions. Each county is assigned a pair of basis functions, and the time series for each CBG is the product of one basis function + a random weight and the other function + another random weight. These time series are essentially products of two basis functions. The basis functions by county are shown below.
+Synthetic time series are generated for the remaining CBGs using a combination of two of the basis functions. Each county is assigned a pair of basis functions, and the time series for each CBG is the product of one basis function + a random weight and the other function + another random weight. These time series are essentially products of two basis functions. The basis functions by county are shown below. We expect the output of our method to look similar to this map.
 
 <img src="https://github.com/InstituteforDiseaseModeling/covid-mobility-and-behavior/blob/master/assets/synthmap-counties.png" width="600" height="400">
+The script [/demo/make-synthetic-wa.R](/demo/make-synthetic-wa.R) generates the synthetic dataset.
 
 #### Running the demo
+The demo analysis could be run using [/demo/Demo-Main-Analysis.ipynb](/demo/Demo-Main-Analysis.ipynb) notebook. The demo dataset is automatically downloaded and saved to `data/demo` directory at the installation command `make data`. Alternatively, the demo dataset could be downloaded from <a href = "https://www.dropbox.com/sh/w4tjp849lnchb9d/AACv0jyNFI2V3mq9kZDPVWePa?dl=1">here</a> and placed in `data/demo` manually. 
+Below is the expected output of the demo analysis:
+<img src="https://github.com/InstituteforDiseaseModeling/covid-mobility-and-behavior/blob/master/assets/demo_output.png">
+The demo analysis takes about 10 minutes to run on the computer with 16 GB RAM and Intel(R) Core(TM) i7-6820HQ CPU @ 2.70GHz processor.
 
+Instructions for real data
+---------------------------
+The raw SafeGraph data is not publicly accessible and we cannot directly share it. Access has to be requested through <a href = "https://www.safegraph.com/covid-19-data-consortium">SafeGraph COVID data consortium</a>. The CBG-level mobility data should be placed in `data/raw`. After that our analysis could be reproduced by running notebooks from [/notebooks](/notebooks) and [/censuscode](/censuscode) directories.
 
 Project Organization
 ------------
