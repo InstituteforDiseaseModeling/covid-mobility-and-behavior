@@ -1,12 +1,7 @@
 COVID Mobility and Behavior
 ==============================
 
-This is a code and analysis repository for the paper "Cell phone tracking data reveals heterogeneity in stay at
-home behavior during the SARS-CoV-2 pandemic". We analyze Safegraph COVID stay-at-home behavior data using nonlinear 
-dimensionality reduction techniques and clustering. We produce lower-dimensional embeddings that capture the stay-at-home
-behavioral patterns that correlate with socioeconomic information (e.g. income). Using the lower-dimensional embeddings, 
-we obtain geographically connected clusters which reveal differences in stay-at-home behavior between rural and urban areas. 
-The results are consistent across multiple states.
+This is a code and analysis repository for the paper "Cell phone mobility data and manifold learning: Insights into population behavior during the COVID-19 pandemic". Cell-phone mobility data offers a modern measurement instrument to investigate human mobility and behavior at an unprecedented scale. We investigate aggregated and anonymized mobility data (<a href = "https://www.safegraph.com/covid-19-data-consortium">SafeGraph COVID mobility data</a>) which measures how populations at the census-block-group geographic scale stayed at home in California, Georgia, Texas, and Washington in the beginning of the COVID-19 pandemic. Using manifold learning techniques, we find patterns of mobility behavior that align with stay-at-home orders, correlate with socioeconomic factors, cluster geographically, reveal subpopulations that likely migrated outof urban areas, and, importantly, link to COVID-19 case counts. The analysis and approach provides policy makers a framework for interpreting mobility data and behavior to inform actions aimed at curbing the spread of COVID-19.
 
 Getting Started
 ---------------
