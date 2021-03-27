@@ -376,7 +376,7 @@ def viz_LLE(X, colors, filename = None, alpha = None, cbar = None, subselect = s
     return LLE_X_2D_emb, LLE_X_3D_emb
     
     
-def viz_cluster_map(colors, index_X, filename = None, title = None, cbar_label = None, cmap = None, ax = None, state = None):#, state_shape_df_ = state_shape_df_):
+def viz_cluster_map(colors, index_X, filename = None, title = None, cbar_label = None, cmap = None, ax = None, state = None, edgecolor = 'lightgrey', linewidth=0.1):#, state_shape_df_ = state_shape_df_):
 #     FIGURES_PATH = '/home/rlevin/notebooks/notebooks/datadrivenmethodsforgemspoliocovid/reports/figures/'
     #FIX THIS FOR OTHER STATES!
 #     sns.set_palette("tab10")
@@ -407,14 +407,9 @@ def viz_cluster_map(colors, index_X, filename = None, title = None, cbar_label =
             missing_kwds={'color': 'lightgrey'}
         else:
             missing_kwds = None
-        state_shape_df_.plot(column = 'colormap', ax = ax, legend = False, edgecolor="lightgrey", cmap = friendly_cmap, linewidth=0.1, missing_kwds=missing_kwds)
+        state_shape_df_.plot(column = 'colormap', ax = ax, legend = False, edgecolor=edgecolor, cmap = friendly_cmap, linewidth=linewidth, missing_kwds=missing_kwds)
         ax.set(title = title)
-    #TODO: handle demo missing data
-#     cbar = ax[1]#.get_figure().get_axes()[1]
-#     ticks = np.sort(np.unique(colors))[::-1]
-#     cbar_clust = fig.colorbar(wa_plot, ticks = ticks)
-        # print('CHECK CBAR:', np.sort(np.unique(colors))[::-1])
-#     cbar.set_yticklabels(['Cluster ' + str(i) for i in ticks])
+
     if filename is not None:
         fig.savefig(filename + '.png', bbox_inches = 'tight')
 
