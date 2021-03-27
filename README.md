@@ -37,6 +37,19 @@ Note that the raw SafeGraph data is not publicly accessible and cannot be downlo
     
 
 
+Demo
+-----
+Since we cannot share the SafeGraph data directly, we provide a demo dataset to showcase our method. 
+
+Synthetic time series are generated for each CBG in Washington State. The time series are based on 4 basis functions: two different sine waves and two exponentials (one rising and one falling).
+
+One county was selected to be based on each of the 4 basis functions. Time series are generated for each CBG within these counties by multiplying the appropriate basis function by a random number. Thus, all CBGs within a single county are the same function multiplied by a scalar. Noise is added to the synthetic time series.
+
+Synthetic time series are generated for the remaining CBGs using a combination of two of the basis functions. Each county is assigned a pair of basis functions, and the time series for each CBG is the product of one basis function + a random weight and the other function + another random weight. These time series are essentially products of two basis functions.
+
+![alt text](assets/synthmap-counties.png)
+
+
 Project Organization
 ------------
 
