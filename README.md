@@ -49,7 +49,7 @@ Synthetic time series are generated for the remaining CBGs using a combination o
 
 <img src="https://github.com/InstituteforDiseaseModeling/covid-mobility-and-behavior/blob/master/assets/synthmap-counties.png" width="600" height="400">
 
-####Running the demo
+#### Running the demo
 
 
 Project Organization
