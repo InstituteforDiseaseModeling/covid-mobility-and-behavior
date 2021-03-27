@@ -5,13 +5,15 @@ This is a code and analysis repository for the paper <a href = https://www.medrx
 
 Getting Started: System Requirements
 -------------------------------------
-To use the code from this repository, we need a Linux machine or Windows with <a href = "https://docs.microsoft.com/en-us/windows/wsl/install-win10">WSL</a>  or <a href = "https://cygwin.com/cygwin-ug-net/cygwin-ug-net.pdf">Cygwin</a> configured to run Linux commands. A <a href = "https://docs.conda.io/projects/conda/en/latest/user-guide/install/linux.html#install-linux-silent">conda</a> installation of <a href = "https://www.python.org/downloads/">Python 3</a> and an installation of <a href = "https://www.r-project.org/">R</a> are also required. An installation of a <a href = "https://jupyter.org/install">Jupyter Notebook</a> is needed for the correct execution of the make commands (see below). The Python dependencies are specified in [requirements.txt](requirements.txt). 
+To use the code from this repository, we need a Linux machine or Windows with <a href = "https://docs.microsoft.com/en-us/windows/wsl/install-win10">WSL</a>  or <a href = "https://cygwin.com/cygwin-ug-net/cygwin-ug-net.pdf">Cygwin</a> configured to run Linux commands. A <a href = "https://docs.conda.io/projects/conda/en/latest/user-guide/install/linux.html#install-linux-silent">conda</a> installation of <a href = "https://www.python.org/downloads/">Python 3</a> and an installation of <a href = "https://www.r-project.org/">R</a> are also required. An installation of a <a href = "https://jupyter.org/install">Jupyter Notebook</a> is needed for the correct execution of the make commands (see below). The Python dependencies are specified in [requirements.txt](requirements.txt). The code was developed and tested on Ubuntu 18.04 computer with 16 GB RAM and Intel(R) Core(TM) i7-6820HQ CPU @ 2.70GHz processor.
 
-To clone this repository:
+Installation Instructions
+---------------------------
+First, we clone the repository:
     
     git clone https://github.com/InstituteforDiseaseModeling/covid-mobility-and-behavior.git
     
-<a href = "https://www.gnu.org/software/make/">Make</a> utility automates downloading the data and creating the environment. Tip: typing `make` in the terminal will show description of available commands.
+<a href = "https://www.gnu.org/software/make/">Make</a> utility automates downloading the data and creating the environment. Typing `make` in the terminal will show description of available commands.
 
 First, we need to create a virtual environment and install the requirements for our project (the below commands should be executed from the root directory of the project).
 The following commands will create a conda virtual environment for the project and activate it:
@@ -23,13 +25,13 @@ After that, we install required packages and create a jupyter kernel for the pro
 
     make requirements
     
-Now, we can download the data. This will download raw data and necessary shapefiles (the command could take up to 20 min to run depending on the Internet speed):
+Note that the above command installs a new jupyter kernel for the created virtual environment. This could be avoided by commenting out the respective lines in [Makefile](Makefile).
+
+Now, we can download the data. The following will download necessary external data, e.g. shapefiles (the command could take up to 20 min to run depending on the Internet speed):
 
     make data
    
-Optionally, we can download precomputed low-dimensional embeddings and other analysis files to allow for creating figures without waiting for the code to run.
-
-    make precomputed_data
+The raw SafeGraph data cannot be downloaded automatically and has to be requested through <a href = "https://www.safegraph.com/covid-19-data-consortium">SafeGraph COVID data consortium</a>. The CBG-level mobility data should be placed in data/raw.
     
 Finally, we should be able to run notebooks from the [/notebooks](/notebooks) folder. Dennis, please use the <a href = "https://github.com/InstituteforDiseaseModeling/covid-mobility-and-behavior/blob/master/notebooks/Supplement_PCA_explained_variance.ipynb">PCA Explained Variance notebook</a> for now to test the code. If it works, that would mean that the local package was installed correctly and that the data was downloaded and saved correctly.
 Other notebooks are in the process of being cleaned up and are coming very soon!
@@ -39,7 +41,7 @@ Project Organization (draft)
 ------------
 
     ├── LICENSE
-    ├── Makefile           <- Makefile with commands like `make data`, `make environment`, `make requirements` 
+    ├── Makefile           <- Makefile with commands like `make data`, `make create_environment`, `make requirements` 
     ├── README.md   
     ├── requirements.txt   <- Requirements file for reproducing the Python analysis environment
     ├── setup.py           <- Installation script for the local package
