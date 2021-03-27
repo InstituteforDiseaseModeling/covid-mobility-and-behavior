@@ -44,38 +44,48 @@ Project Organization (draft)
 ------------
 
     ├── LICENSE
-    ├── Makefile           <- Makefile with commands like `make data` 
-    ├── README.md          <- The top-level README for developers using this project.
+    ├── Makefile           <- Makefile with commands like `make data`, `make environment`, `make requirements` 
+    ├── README.md   
+    ├── requirements.txt   <- Requirements file for reproducing the Python analysis environment
+    ├── setup.py           <- Installation script for the local package
+    │
+    ├── demo
+    |   ├──obj             <- Directory to save computed objects
+    |   |
+    │   ├── Demo-Main-Analysis.ipynb    <- Main demo notebook with the dimesionality reduction + clustering pipeline applied to synthetic demo data
+    │   └── make-synthetic-wa.R         <- Script to generate demo data: synthetic mobility dynamics in Washington state
+    │
     ├── data
-    │   ├── external       <- Data from third party sources. (Not on Github, in IDM dropbox, downloaded automatically)
-    │   ├── interim        <- Intermediate data that has been transformed.(Not on Github, in IDM dropbox, downloaded automatically)
-    │   ├── processed      <- The final, canonical data sets for modeling.(Not on Github, in IDM dropbox, downloaded automatically)
-    │   └── raw            <- The original, immutable data dump.(Not on Github, in IDM dropbox, downloaded automatically)
+    │   ├── external       <- Data from external sources, e.g. shapefiles for plotting maps (from census.gov)  
+    │   ├── interim        <- Intermediate data files
+    │   ├── processed      <- Final data sets -- final clustering labels and final low-dimensional coordinates for every state
+    │   └── raw            <- Raw data -- this is where <a href = "https://www.safegraph.com/covid-19-data-consortium">SafeGraph mobility data</a> should be placed 
     │
-    ├── docs               <- documentation, see html files in the build directory. Will be published using github pages.
+    ├── notebooks          <- Jupyter notebooks with the analysis code and the code to generate figures
+    |   ├──obj             <- Directory to save computed objects
+    |   |
+    │   ├── Main-Analysis-Figure2.ipynb    <- Main notebook with the dimesionality reduction + clustering pipeline applied to all 4 states, produces Figure 2
+    │   ├── Schematic-Figure1.ipynb        <- Generates panels for the pipeline description in Figure 1 of the paper
+    │   ├── Zoomed-Maps-Figure3.ipynb      <- Generates zoomed-in maps for Figure 3 of the paper
+    │   └── income-population-KS.ipynb     <- Analysis of income and population density in identified clusters, Kolmogorov-Smirnov test for response speed distributions
     │
+    ├── censuscode         <- Source code for interpretation analysis
+    │   ├── get-acs2018data.R    <- Script to download ACS data (requires inserting API key to access ACS data)  
+    │   └── make-census-plots.R  <- Script to interpret the clusters by correlating them with socieconomic data, produces Figures 4,5, and 6 of the paper
+    |
+    ├── reports            <- Final figures
+    │   └── figures        
     │
-    ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
-    │                         the creator's initials, and a short `-` delimited description, e.g.
-    │                         `1.0-jqp-initial-data-exploration`.
-    │
-    ├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
-    │   └── figures        <- Generated graphics and figures to be used in reporting
-    │
-    ├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
-    │                         generated with `pip freeze > requirements.txt`
-    │
-    ├── setup.py           <- makes project pip installable (pip install -e .) so src can be imported
-    └── src                <- Source code for use in this project.
-        ├── __init__.py    <- Makes src a Python module
-        │
-        ├── data           <- Scripts to download data
-        │   └── make_dataset.py
+    └── src                <- Source code 
+        |
+        ├── data           <- Scripts to download data (only downloads demo data and publicly available data like shapefiles, the SafeGraph data access should be requested from SafeGraph)
         │ 
-        │
-        └── visualization  <- Scripts to create exploratory and results oriented visualizations
-           └── visualize.py
-    
+        ├── config.py                      <- Configurations defining data paths and color palettes
+        ├── core_pipeline.py               <- Source code for applying the pipeline of nonlinear dimensionality reduction + GMM clustering
+        ├── dimensionality_reduction.py    <- Functions for dimensionality reduction methods and their visualization
+        └── utils.py                       <- Helper functions
+        
+        
 
 --------
 
