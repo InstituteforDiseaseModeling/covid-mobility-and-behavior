@@ -45,11 +45,11 @@ Synthetic time series are generated for each CBG in Washington State. The time s
 
 One county was selected to be based on each of the 4 basis functions. Time series are generated for each CBG within these counties by multiplying the appropriate basis function by a random number. Thus, all CBGs within a single county are the same function multiplied by a scalar. Noise is added to the synthetic time series.
 
-Synthetic time series are generated for the remaining CBGs using a combination of two of the basis functions. Each county is assigned a pair of basis functions, and the time series for each CBG is the product of one basis function + a random weight and the other function + another random weight. These time series are essentially products of two basis functions.
+Synthetic time series are generated for the remaining CBGs using a combination of two of the basis functions. Each county is assigned a pair of basis functions, and the time series for each CBG is the product of one basis function + a random weight and the other function + another random weight. These time series are essentially products of two basis functions. The basis functions by county are shown below.
 
 <img src="https://github.com/InstituteforDiseaseModeling/covid-mobility-and-behavior/blob/master/assets/synthmap-counties.png" width="600" height="400">
 
-
+####Running the demo
 
 
 Project Organization
