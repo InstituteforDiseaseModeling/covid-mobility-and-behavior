@@ -49,7 +49,7 @@ One county was selected to be based on each of the 4 basis functions. Time serie
 Synthetic time series are generated for the remaining CBGs using a combination of two of the basis functions. Each county is assigned a pair of basis functions, and the time series for each CBG is the product of one basis function + a random weight and the other function + another random weight. These time series are essentially products of two basis functions. The basis functions by county are shown below. We expect the output of our method to look similar to this map.
 
 <img src="https://github.com/InstituteforDiseaseModeling/covid-mobility-and-behavior/blob/master/assets/synthmap-counties.png" width="600" height="400">
-The script [/demo/make-synthetic-wa.R](/demo/make-synthetic-wa.R) generates the synthetic dataset.
+The script [/demo/make-synthetic-wa](/demo/make-synthetic-wa) generates the synthetic dataset.
 
 #### Running the demo
 The demo analysis could be run using [/demo/Demo-Main-Analysis.ipynb](/demo/Demo-Main-Analysis.ipynb) notebook. The demo dataset is automatically downloaded and saved to `data/demo` directory at the installation command `make data`. Alternatively, the demo dataset could be downloaded from <a href = "https://www.dropbox.com/sh/w4tjp849lnchb9d/AACv0jyNFI2V3mq9kZDPVWePa?dl=1">here</a> and placed in `data/demo` manually. 
