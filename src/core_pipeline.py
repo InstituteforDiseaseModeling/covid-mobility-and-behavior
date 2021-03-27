@@ -138,6 +138,8 @@ def add_state_to_fig(state, fig, spec, row, NUM_STATES, X, reordered_SE_clusters
         ax.view_init(30, 245)
     if state == 'ca':
         ax.view_init(30, 80)
+    if state == 'demo':
+        ax.view_init(30, 200)
     
     ax.set_xlim(np.array([np.min(X_3D_SE[:,0]), np.max(X_3D_SE[:,0])]))
     ax.set_ylim(np.array([np.min(X_3D_SE[:,1]), np.max(X_3D_SE[:,1])]))

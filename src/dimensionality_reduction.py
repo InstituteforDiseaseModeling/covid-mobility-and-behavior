@@ -376,7 +376,7 @@ def viz_LLE(X, colors, filename = None, alpha = None, cbar = None, subselect = s
     return LLE_X_2D_emb, LLE_X_3D_emb
     
     
-def viz_cluster_map(colors, index_X, filename = None, title = None, cbar_label = None, cmap = None, ax = None, state = None):#, washington_ = washington_):
+def viz_cluster_map(colors, index_X, filename = None, title = None, cbar_label = None, cmap = None, ax = None, state = None):#, state_shape_df_ = state_shape_df_):
 #     FIGURES_PATH = '/home/rlevin/notebooks/notebooks/datadrivenmethodsforgemspoliocovid/reports/figures/'
     #FIX THIS FOR OTHER STATES!
 #     sns.set_palette("tab10")
@@ -387,23 +387,27 @@ def viz_cluster_map(colors, index_X, filename = None, title = None, cbar_label =
         friendly_cmap = ListedColormap(sns.color_palette(almost_sequential_pal, len(np.unique(colors))).as_hex())#'colorblind'
     else:
         friendly_cmap = None
-    washington = gpd.read_file(SHAPE_PATH)
-    washington_ = washington.copy()
-    washington_.GEOID = washington_.GEOID.astype('int')
-    washington_ = washington_.set_index('GEOID')
+    state_shape_df = gpd.read_file(SHAPE_PATH)
+    state_shape_df_ = state_shape_df.copy()
+    state_shape_df_.GEOID = state_shape_df_.GEOID.astype('int')
+    state_shape_df_ = state_shape_df_.set_index('GEOID')
     
     colors = pd.DataFrame(colors, columns = ['c'])
     colors['block_ind'] = index_X
     colors = colors.set_index('block_ind')
-    washington_['colormap'] = colors['c']
+    state_shape_df_['colormap'] = colors['c']
     if ax is None:
         fig, ax = plt.subplots(figsize=(12, 10))
         ax.axis('off')
-        washington_.plot(column = 'colormap', ax = ax, legend = True, edgecolor="face", cmap = friendly_cmap, linewidth=0.1, legend_kwds={'label': cbar_label,'orientation': "horizontal"})
+        state_shape_df_.plot(column = 'colormap', ax = ax, legend = True, edgecolor="face", cmap = friendly_cmap, linewidth=0.1, legend_kwds={'label': cbar_label,'orientation': "horizontal"})
         ax.set(title= title)
     else:
         ax.axis('off')
-        washington_.plot(column = 'colormap', ax = ax, legend = False, edgecolor="lightgrey", cmap = friendly_cmap, linewidth=0.1, missing_kwds={'color': 'lightgrey'})
+        if np.any(state_shape_df_.isnull()):#if there is missing data
+            missing_kwds={'color': 'lightgrey'}
+        else:
+            missing_kwds = None
+        state_shape_df_.plot(column = 'colormap', ax = ax, legend = False, edgecolor="lightgrey", cmap = friendly_cmap, linewidth=0.1, missing_kwds=missing_kwds)
         ax.set(title = title)
     #TODO: handle demo missing data
 #     cbar = ax[1]#.get_figure().get_axes()[1]
