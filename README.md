@@ -32,7 +32,8 @@ Now, we can download the data. The following will download necessary external da
     make data
    
 Now we should be able to run the demo notebook from the [/demo](/demo) folder.
-The raw SafeGraph data cannot be downloaded automatically and has to be requested through <a href = "https://www.safegraph.com/covid-19-data-consortium">SafeGraph COVID data consortium</a>. The CBG-level mobility data should be placed in `data/raw`.
+
+Note that the raw SafeGraph data is not publicly accessible and cannot be downloaded automatically. Access has to be requested through <a href = "https://www.safegraph.com/covid-19-data-consortium">SafeGraph COVID data consortium</a>. The CBG-level mobility data should be placed in `data/raw`. While the results of our analysis could be viewed by accessing the [/notebooks](/notebooks) directory, the code would not run correctly without the raw SafeGraph data.
     
 
 
