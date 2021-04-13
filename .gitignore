@@ -81,6 +81,7 @@ target/
 # exclude data from source control by default
 /data/
 /reports/figures/
+/demo/obj/
 # Mac OS-specific storage files
 .DS_Store
 
