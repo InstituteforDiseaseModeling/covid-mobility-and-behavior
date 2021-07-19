@@ -11,7 +11,7 @@ import datetime
 import scipy
 from src.config import configurations
 from src.dimensionality_reduction import compute_covariance, visualize_manifold_method, choose_dimension
-from src.dimensionality_reduction import viz_cluster_map, viz_LLE, viz_Isomap, viz_SE
+from src.dimensionality_reduction import viz_cluster_map, viz_LLE, viz_Isomap, viz_SE, viz_DM
 from src.utils import define_paths, load_data, convert_to_python_dict, save_obj, load_obj, find_closest_time_series
 from src.utils import plot_time_series, find_cos_similarity, intersection, relabel_clusters
 from rpy2.robjects.packages import importr
@@ -111,7 +111,8 @@ def index_with_blocks_and_save(STATE, emb_df_optimal_D, emb_2D, emb_3D, clusters
     df_uncertainty.to_csv(os.path.join(path_to_processed, 'uncertainty_' + STATE + '.csv'))
     return df_optimal_D, df_2D, df_3D, df_clusters, df_z, df_uncertainty
 
-def add_state_to_fig(state, fig, spec, row, NUM_STATES, X, reordered_SE_clusters, index_X, reordered_avg_per_clust, load_path = None, save_path = None, separate = False, two_cols = False, configurations = None):
+def add_state_to_fig(state, fig, spec, row, NUM_STATES, X, reordered_SE_clusters, index_X, reordered_avg_per_clust, load_path = None, save_path = None, separate = False, two_cols = False, configurations = None,
+                     dm = False, dm_bandwidth = 'fixed'):
     SHAPE_PATH, FIGURE_PATH, RAW_DATA_PATH, INCOME_POPULATION_PATH = define_paths(state)
     almost_sequential_pal = configurations['clustering_palette']#['#1f78b4','#a6cee3','#fdbf6f','#ff7f00', '#cc78bc']
     sns.set_palette(almost_sequential_pal)
@@ -130,9 +131,19 @@ def add_state_to_fig(state, fig, spec, row, NUM_STATES, X, reordered_SE_clusters
         cbar = None
     else:
         cbar = 'clustering'
-    _, X_3D_SE = viz_SE(X, reordered_SE_clusters, filename = None, alpha = 0.5, cbar = cbar, ax = ax, load_path = load_path, save_path = save_path)
+    if not dm: #If not diffusion maps
+        _, X_3D_SE = viz_SE(X, reordered_SE_clusters, filename = None, alpha = 0.5, cbar = cbar, ax = ax, load_path = load_path, save_path = save_path)
+    else:
+        _, X_3D_SE = viz_DM(X, reordered_SE_clusters, filename=None, alpha=0.5, cbar=cbar, ax=ax, load_path=load_path,
+                        save_path=save_path, dm_bandwidth = dm_bandwidth)
     if state == 'wa':
-        ax.view_init(30, 200)
+        if not dm:
+            ax.view_init(30, 200)
+        if dm:
+            if dm_bandwidth == 'variable':
+                ax.view_init(30, 60)#30,0
+            else:
+                ax.view_init(30,0)
     if state == 'ga':
         ax.view_init(30, 80)
     if state == 'tx':
@@ -225,11 +236,11 @@ def add_state_to_fig(state, fig, spec, row, NUM_STATES, X, reordered_SE_clusters
 #         ax.yticks(fontsize=11*5)
         ax.tick_params(axis='both', which='major', labelsize=6*5)
         ax.grid(True, 'minor', 'x', ls='--', lw=.5, c='k', alpha=.3)
-        ax.set_xlim([datetime(2020, 2, 19), datetime(2020, 6, 21)])    
+        ax.set_xlim([datetime(2020, 2, 19), datetime(2020, 6, 21)])
         if separate:
             fig.savefig(os.path.join(FIGURE_PATH, state + '_time_series_col_3.png'), bbox_inches = 'tight',  pad_inches=0, dpi = 900)
 
-def analysis(STATE, method, method_kwargs, hyperparams_to_test, fig, spec, row, precomputed = False, separate = False, two_cols = False, NUM_STATES = 1, configurations = None, default_cluster_num=5):
+def analysis(STATE, method, method_kwargs, hyperparams_to_test, fig, spec, row, precomputed = False, separate = False, two_cols = False, NUM_STATES = 1, configurations = None, default_cluster_num=5, dm = False, dm_bandwidth = 'fixed'):
     #First, define appropriate paths
     SHAPE_PATH, FIGURE_PATH, RAW_DATA_PATH, INCOME_POPULATION_PATH = define_paths(STATE)
     
@@ -280,7 +291,9 @@ def analysis(STATE, method, method_kwargs, hyperparams_to_test, fig, spec, row, 
         viz = viz_SE
     if method.__name__ == 'LocallyLinearEmbedding':
         viz = viz_LLE
-        
+    if method.__name__ == 'dm_wrapper':
+        viz = viz_DM
+
     if precomputed:
         load_path = os.path.join('obj', STATE)
         save_path = None
@@ -335,7 +348,7 @@ def analysis(STATE, method, method_kwargs, hyperparams_to_test, fig, spec, row, 
     sns.set(style="whitegrid")
     if two_cols:
         reordered_clusters = cos_colors #Change colors
-    add_state_to_fig(STATE, fig, spec, row, NUM_STATES, X, reordered_clusters, index_X, reordered_avg_per_clust, load_path = load_path, save_path = save_path, separate = separate, two_cols = two_cols, configurations = configurations)
-    
+    add_state_to_fig(STATE, fig, spec, row, NUM_STATES, X, reordered_clusters, index_X, reordered_avg_per_clust, load_path = load_path, save_path = save_path, separate = separate, two_cols = two_cols, configurations = configurations, dm = dm, dm_bandwidth = dm_bandwidth)
+    return reordered_clusters
 if __name__ == "__main__":
     pass

@@ -305,6 +305,8 @@ def visualize_manifold_method(X, emb_method, hyperparams_to_test, colors, filena
             fig.savefig(filename+'_3D.png', bbox_inches = 'tight')
     
     if ax is not None:
+        # ax.scatter(X_3D_emb[subselect,0], X_3D_emb[subselect, 1], X_3D_emb[subselect, 2], c=colors, alpha = alpha, cmap = friendly_cmap)
+        print('Len of colors {}'.format(len(colors)))
         ax.scatter(X_3D_emb[subselect,0], X_3D_emb[subselect, 1], X_3D_emb[subselect, 2], c=colors, alpha = alpha, cmap = friendly_cmap)
         ax.set_xlabel('{} 0'.format(emb_method.__name__))
         ax.set_ylabel('{} 1'.format(emb_method.__name__))
@@ -334,7 +336,45 @@ def viz_SE(X, colors, filename = None, alpha = None, cbar = None, subselect = sl
     
     return SE_X_2D_emb, SE_X_3D_emb
 
+from pydiffmap import diffusion_map as dm
 
+# def dm_wrapper(n_neighbors, n_components, bandwidth_type, alpha_dm, epsilon):
+#     return dm.DiffusionMap.from_sklearn(n_evecs=n_components, epsilon=epsilon, alpha=alpha_dm, k=n_neighbors, bandwidth_type=bandwidth_type)
+def dm_wrapper(n_neighbors, n_components, bandwidth_type, alpha_dm, epsilon):
+    if alpha_dm is None:
+        return dm.DiffusionMap.from_sklearn(n_evecs=n_components, epsilon=epsilon, alpha=(1/2-n_components/4), k=n_neighbors, bandwidth_type=bandwidth_type)
+    else:
+        return dm.DiffusionMap.from_sklearn(n_evecs=n_components, epsilon=epsilon, alpha=alpha_dm,
+                                            k=n_neighbors, bandwidth_type=bandwidth_type)
+
+
+def viz_DM(X, colors, filename=None, alpha=None, cbar=None, subselect=slice(None), ax=None, load_path=None,
+           save_path=None, dm_bandwidth = 'fixed'):
+    # Try Spectral Embedding
+
+    emb_method = dm_wrapper
+
+    hyperparams_to_test = {}  # {'n_neighbors': [50, 50]}
+
+    #Fixed bandwidth
+    if dm_bandwidth == 'fixed':
+        SE_X_2D_emb, SE_X_3D_emb = visualize_manifold_method(X, emb_method, hyperparams_to_test, colors, filename=filename,
+                                                             alpha=alpha, cbar=cbar, subselect=subselect, ax=ax,
+                                                             load_path=load_path, save_path=save_path, **{'n_neighbors': 50,
+                                                                                                          'n_components': 2,
+                                                                                                          'bandwidth_type': None,
+                                                                                                          'alpha_dm':1.0,
+                                                                                                          'epsilon': 0.5})
+    #Variable bandwidth
+    if dm_bandwidth == 'variable':
+        SE_X_2D_emb, SE_X_3D_emb = visualize_manifold_method(X, emb_method, hyperparams_to_test, colors, filename=filename,
+                                                             alpha=alpha, cbar=cbar, subselect=subselect, ax=ax,
+                                                             load_path=load_path, save_path=save_path, **{'n_neighbors': 100,
+                                                                                                          'n_components': 2,
+                                                                                                          'bandwidth_type': -1/2,
+                                                                                                          'alpha_dm': 1/2 - 15/4,
+                                                                                                          'epsilon': 0.0002})
+    return SE_X_2D_emb, SE_X_3D_emb
         
 def viz_Isomap(X, colors, filename = None, alpha = None, cbar = None, subselect = slice(None), ax = None, load_path = None, save_path = None):
     emb_method = Isomap
