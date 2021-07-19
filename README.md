@@ -55,7 +55,7 @@ The script <a href = "https://github.com/InstituteforDiseaseModeling/covid-mobil
 The demo analysis could be run using [/demo/Demo-Main-Analysis.ipynb](/demo/Demo-Main-Analysis.ipynb) notebook. The demo dataset is automatically downloaded and saved to `data/demo` directory at the installation command `make data`. Alternatively, the demo dataset could be downloaded from <a href = "https://www.dropbox.com/sh/w4tjp849lnchb9d/AACv0jyNFI2V3mq9kZDPVWePa?dl=1">here</a> and placed in `data/demo` manually. 
 Below is the expected output of the demo analysis:
 <img src="https://github.com/InstituteforDiseaseModeling/covid-mobility-and-behavior/blob/master/assets/demo_output.png">
-The demo analysis takes about 10 minutes to run on the computer with 16 GB RAM and Intel(R) Core(TM) i7-6820HQ CPU @ 2.70GHz processor.
+The demo analysis takes about 10 minutes to run on a computer with 16 GB RAM and Intel(R) Core(TM) i7-6820HQ CPU @ 2.70GHz processor.
 
 Instructions for real data
 ---------------------------
