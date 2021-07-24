@@ -141,7 +141,7 @@ def add_state_to_fig(state, fig, spec, row, NUM_STATES, X, reordered_SE_clusters
             ax.view_init(30, 200)
         if dm:
             if dm_bandwidth == 'variable':
-                ax.view_init(30, 60)#30,0
+                ax.view_init(130, 60)#30,0
             else:
                 ax.view_init(30,0)
     if state == 'ga':
