@@ -88,6 +88,7 @@ Project Organization
     │   ├── Main-Analysis-Figure2.ipynb    <- Main notebook with the dimesionality reduction + clustering pipeline applied to all 4 states, produces Figure 2
     │   ├── Schematic-Figure1.ipynb        <- Generates panels for the pipeline description in Figure 1 of the paper
     │   ├── Zoomed-Maps-Figure3.ipynb      <- Generates zoomed-in maps for Figure 3 of the paper
+    |   ├── Diffusion-Maps.ipynb      <- Diffusion Maps code (Supplement, Figure S3)
     │   └── income-population-KS.ipynb     <- Analysis of income and population density in identified clusters, Kolmogorov-Smirnov test for response speed distributions
     │
     ├── censuscode         <- Source code for interpretation analysis
