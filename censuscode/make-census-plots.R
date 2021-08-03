@@ -22,7 +22,7 @@ names(pal.cluster.dark) <- c("A","B","C","D","E")
 for (region in c("washington","texas","california","georgia")) {
     print(region)
     statename <- region
-    statefips <- ifelse(region %in% c("king","yakima","washington"),"53",ifelse(region %in% c("la","california"),"06",ifelse(region %in% c("atlanta","georgia"),"13",ifelse(region %in% c("denver"),"08",ifelse(region=="florida","12",ifelse(region=="texas","48",ifelse(region=="idaho","16",NULL)))))))
+    statefips <- ifelse(region=="washington","53",ifelse(region=="california","06",ifelse(region=="georgia","13",ifelse(region=="texas","48",NA))))
 
 # Get cluster data
 # load transformed and cluster data
@@ -31,6 +31,7 @@ for (region in c("washington","texas","california","georgia")) {
         data.clusters[["gmm5"]] <- read.csv(paste(clusterdatadirectory,"labels_GMM_on_SE_5clust_seed0.csv",sep=""), sep=",", header=TRUE)
         data.clusters[["gmm5"]]$cluster <- c("B","D","E","A","C")[data.clusters[["gmm5"]]$x]
     } else {
+        stateabbr <- ifelse(region=="texas","tx",ifelse(region=="california","ca",ifelse(region=="georgia","ga",NA)))
         data.clusters[["gmm5"]] <- read.csv(paste(clusterdatadirectory,"labels_",stateabbr,".csv",sep=""), sep=",", header=TRUE)
         colnames(data.clusters[["gmm5"]]) <- c("ind","x")
         if (statename=="texas") {
